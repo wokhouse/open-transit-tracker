@@ -68,7 +68,6 @@
     <rect class="off" x="296" y="70" width="9" height="9" rx="2"/>
     <rect class="off" x="308" y="70" width="9" height="9" rx="2"/>
     <rect class="off" x="320" y="70" width="9" height="9" rx="2"/>
-    <rect class="off" x="332" y="70" width="9" height="9" rx="2"/>
     <rect class="off" x="344" y="70" width="9" height="9" rx="2"/>
     <rect class="off" x="356" y="70" width="9" height="9" rx="2"/>
     <rect class="off" x="368" y="70" width="9" height="9" rx="2"/>
@@ -93,17 +92,13 @@
     <rect class="off" x="236" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="248" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="260" y="82" width="9" height="9" rx="2"/>
-    <rect class="off" x="272" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="284" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="296" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="308" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="320" y="82" width="9" height="9" rx="2"/>
-    <rect class="off" x="332" y="82" width="9" height="9" rx="2"/>
-    <rect class="off" x="344" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="356" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="368" y="82" width="9" height="9" rx="2"/>
     <rect class="off" x="20" y="94" width="9" height="9" rx="2"/>
-    <rect class="off" x="32" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="44" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="56" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="68" y="94" width="9" height="9" rx="2"/>
@@ -128,22 +123,18 @@
     <rect class="off" x="296" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="308" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="320" y="94" width="9" height="9" rx="2"/>
-    <rect class="off" x="332" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="344" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="356" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="368" y="94" width="9" height="9" rx="2"/>
     <rect class="off" x="20" y="106" width="9" height="9" rx="2"/>
-    <rect class="off" x="32" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="44" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="56" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="68" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="80" y="106" width="9" height="9" rx="2"/>
-    <rect class="off" x="92" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="104" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="116" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="128" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="140" y="106" width="9" height="9" rx="2"/>
-    <rect class="off" x="152" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="164" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="176" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="188" y="106" width="9" height="9" rx="2"/>
@@ -152,7 +143,6 @@
     <rect class="off" x="224" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="236" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="248" y="106" width="9" height="9" rx="2"/>
-    <rect class="off" x="260" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="272" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="284" y="106" width="9" height="9" rx="2"/>
     <rect class="off" x="296" y="106" width="9" height="9" rx="2"/>
@@ -179,6 +169,16 @@
     <rect class="on" x="356" y="58" width="9" height="9" rx="2"/>
     <rect class="on" x="44" y="70" width="9" height="9" rx="2"/>
     <rect class="on" x="68" y="70" width="9" height="9" rx="2"/>
+    <rect class="on" x="332" y="70" width="9" height="9" rx="2"/>
+    <rect class="on" x="272" y="82" width="9" height="9" rx="2"/>
+    <rect class="on" x="332" y="82" width="9" height="9" rx="2"/>
+    <rect class="on" x="344" y="82" width="9" height="9" rx="2"/>
+    <rect class="on" x="32" y="94" width="9" height="9" rx="2"/>
+    <rect class="on" x="332" y="94" width="9" height="9" rx="2"/>
+    <rect class="on" x="32" y="106" width="9" height="9" rx="2"/>
+    <rect class="on" x="92" y="106" width="9" height="9" rx="2"/>
+    <rect class="on" x="152" y="106" width="9" height="9" rx="2"/>
+    <rect class="on" x="260" y="106" width="9" height="9" rx="2"/>
   </g>
   <text class="stat" x="377" y="144" text-anchor="end">open transit tracker</text>
 </svg>
