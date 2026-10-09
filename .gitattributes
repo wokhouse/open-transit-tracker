@@ -1,0 +1,4 @@
+# Generated files. Mark them so GitHub folds their diffs and leaves them out
+# of language stats. The daily job rewrites these; you do not hand-edit them.
+data.json       linguist-generated=true
+widgets/*.svg   linguist-generated=true
