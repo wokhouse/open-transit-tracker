@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="120" viewBox="0 0 420 120" role="img" aria-label="Muni Metro: 18/219 (8.22%)">
+  <style>
+    .card { fill: #0d1117; stroke: #30363d; }
+    .title { fill: #e6edf3; font: 600 15px -apple-system, 'Segoe UI', sans-serif; }
+    .stat { fill: #9198a1; font: 12.5px -apple-system, 'Segoe UI', sans-serif; }
+    .pct  { fill: #10b981; font: 700 20px -apple-system, 'Segoe UI', sans-serif; }
+    .bar-bg { fill: #21262d; }
+    .bar-fg { fill: #10b981; }
+    @media (prefers-color-scheme: light) {
+      .card { fill: #ffffff; stroke: #d0d7de; }
+      .title { fill: #1f2328; }
+      .stat { fill: #656d76; }
+      .bar-bg { fill: #eaeef2; }
+    }
+  </style>
+  <rect class="card" x="0.5" y="0.5" width="419" height="119" rx="10"/>
+  <text class="title" x="20" y="34">Muni Metro</text>
+  <text class="pct" x="400" y="35" text-anchor="end">8.22%</text>
+  <rect class="bar-bg" x="20" y="52" width="380" height="12" rx="6"/>
+  <rect class="bar-fg" x="20" y="52" width="31.2" height="12" rx="6"/>
+  <text class="stat" x="20" y="92">18 / 219 vehicles · last ride 2026-10-06</text>
+  <text class="stat" x="400" y="112" text-anchor="end">open transit tracker</text>
+</svg>
