@@ -1,0 +1,50 @@
+name: Build and deploy
+
+# The daily job commits only data.json. This workflow regenerates the SVG
+# widgets from data.json and publishes the site and the widgets to Pages.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Assemble a clean site directory: the page, the data, and the widgets.
+      - name: Build site
+        run: |
+          python3 scripts/make_widgets.py
+          mkdir -p _site
+          cp index.html data.json _site/
+          cp -r widgets _site/widgets
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

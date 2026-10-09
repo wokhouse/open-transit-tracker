@@ -159,8 +159,15 @@ def make_large(agency, rides, ranges):
 
 
 def main():
+    import argparse
+
+    ap = argparse.ArgumentParser(description="Generate the SVG widgets from a data file.")
+    ap.add_argument("--data", default=str(ROOT / "data.json"),
+                    help="input data file (default: data.json)")
+    args = ap.parse_args()
+
     WIDGETS.mkdir(exist_ok=True)
-    data = json.loads((ROOT / "data.json").read_text())
+    data = json.loads(Path(args.data).read_text())
     rides_by_agency = {}
     for ride in data["rides"]:
         rides_by_agency.setdefault(ride["agency_slug"], []).append(ride)

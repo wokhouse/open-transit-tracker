@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>open transit tracker</title>
+<meta name="description" content="Open transit fleet coverage tracker — riding every vehicle in the fleet.">
+<style>
+  :root {
+    --bg: #09090b; --card: #18181b; --border: #27272a;
+    --text: #f4f4f5; --muted: #a1a1aa; --faint: #52525b;
+    --green: #10b981; --green-hover: #34d399; --cell: #27272a; --cell-text: #71717a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2rem 1rem 4rem;
+    background: var(--bg); color: var(--text);
+    font: 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 72rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 0.25rem; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 2.5rem; }
+  .agency { margin-bottom: 3rem; }
+  .agency-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .agency-head h2 { font-size: 1.15rem; margin: 0; }
+  .pct { color: var(--green); font-weight: 700; font-size: 1.05rem; }
+  .count { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+  .track { height: 10px; border-radius: 5px; background: var(--cell); overflow: hidden; margin-bottom: 1.25rem; }
+  .fill { height: 100%; background: var(--green); border-radius: 5px; }
+  .range { margin-bottom: 1.5rem; }
+  .range-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+  .range-head h3 { font-size: 0.85rem; margin: 0; color: var(--text); font-weight: 600; }
+  .range-head h3 small { color: var(--faint); font-weight: 400; margin-left: 0.4rem; }
+  .range-head span { color: var(--muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .grid { display: flex; flex-wrap: wrap; gap: 3px; }
+  .prefix-note { color: var(--faint); font-size: 0.8rem; margin-top: 0.25rem; }
+  .cell {
+    width: 44px; height: 26px; border-radius: 4px;
+    background: var(--cell); color: var(--cell-text);
+    font: 11px/26px ui-monospace, "SF Mono", Menlo, monospace;
+    text-align: center; user-select: none;
+  }
+  .cell.ridden { background: var(--green); color: #022c22; font-weight: 600; cursor: default; }
+  .cell.ridden:hover { background: var(--green-hover); }
+  footer { color: var(--faint); font-size: 0.8rem; margin-top: 3rem; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>🚍 open transit tracker</h1>
+  <p class="sub">riding every vehicle in the fleet</p>
+  <div id="app"><p class="sub">loading…</p></div>
+  <footer>data auto-updates daily · <a href="https://github.com/wokhouse/open-transit-tracker">source</a></footer>
+</main>
+<script>
+const num = v => {
+  const m = String(v).match(/(\d+)/);
+  return m ? parseInt(m[1], 10) : null;
+};
+const rangeLabel = r => r.prefix != null ? r.prefix + "-series"
+  : r.cars ? r.cars[0] + "\u2013" + r.cars[r.cars.length - 1] + " (irregular)"
+  : r.lo === r.hi ? String(r.lo) : r.lo + "\u2013" + r.hi;
+
+fetch("data.json").then(r => r.json()).then(data => {
+  const ridesByAgency = {};
+  for (const ride of data.rides)
+    (ridesByAgency[ride.agency_slug] ??= []).push(ride);
+  const rangesByAgency = {};
+  for (const rng of data.ranges)
+    (rangesByAgency[rng.agency_slug] ??= []).push(rng);
+
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  for (const a of data.agencies) {
+    const rides = ridesByAgency[a.slug] || [];
+    const riddenMap = new Map();
+    for (const r of rides) {
+      const n = num(r.vehicle);
+      if (n !== null) riddenMap.set(n, r);
+    }
+    const pct = a.total_fleet ? rides.length / a.total_fleet * 100 : 0;
+    a._pct = pct;
+  }
+
+  // biggest coverage first
+  data.agencies.sort((x, y) => y._pct - x._pct);
+
+  for (const a of data.agencies) {
+    const rides = ridesByAgency[a.slug] || [];
+    const riddenMap = new Map();
+    for (const r of rides) {
+      const n = num(r.vehicle);
+      if (n !== null) riddenMap.set(n, r);
+    }
+    const pct = a._pct;
+
+    const sec = document.createElement("section");
+    sec.className = "agency";
+    sec.innerHTML =
+      `<div class="agency-head"><h2>${a.name}</h2>` +
+      `<span class="pct">${pct.toFixed(2)}%</span>` +
+      `<span class="count">${rides.length} / ${a.total_fleet}</span></div>` +
+      `<div class="track"><div class="fill" style="width:${Math.min(pct, 100)}%"></div></div>`;
+
+    for (const rng of rangesByAgency[a.slug] || []) {
+      const cells = [];              // {label, num} — num used for ridden lookup
+      if (rng.cars) {
+        // explicit car list (irregular numbering, e.g. Caltrain KISS coaches)
+        for (const c of rng.cars) cells.push({ label: c, num: num(c) });
+      } else if (rng.lo !== null && rng.hi !== null) {
+        for (let n = rng.lo; n <= rng.hi; n++) cells.push({ label: n, num: n });
+      }
+      const riddenIn = cells.filter(c => c.num != null && riddenMap.has(c.num)).length;
+      const denom = rng.count ?? cells.length;
+
+      const rsec = document.createElement("div");
+      rsec.className = "range";
+      let head =
+        `<div class="range-head"><h3>${rng.type}<small>${rangeLabel(rng)}</small></h3>` +
+        `<span>${riddenIn}/${denom}</span></div>`;
+      if (!cells.length) {
+        // no drawable cells: show a summary row
+        rsec.innerHTML = head + `<div class="prefix-note">${riddenIn} of ${denom} ridden</div>`;
+        sec.appendChild(rsec);
+        continue;
+      }
+      rsec.innerHTML = head + `<div class="grid"></div>`;
+      const grid = rsec.querySelector(".grid");
+      for (const { label, num: n } of cells) {
+        const cell = document.createElement("span");
+        cell.className = "cell" + (n != null && riddenMap.has(n) ? " ridden" : "");
+        cell.textContent = label;
+        const ride = n != null ? riddenMap.get(n) : null;
+        if (ride) cell.title = `${ride.vehicle} — ridden ${ride.date || "unknown date"}`;
+        grid.appendChild(cell);
+      }
+      sec.appendChild(rsec);
+    }
+    app.appendChild(sec);
+  }
+}).catch(err => {
+  document.getElementById("app").innerHTML = `<p class="sub">failed to load data.json: ${err}</p>`;
+});
+</script>
+</body>
+</html>
