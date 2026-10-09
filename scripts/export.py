@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""Export ~/transit/transit.db -> data.json (canonical, stable ordering).
+"""Export the tracker SQLite DB -> data.json (canonical, stable ordering).
 
 No timestamp in the output: identical DB content must produce a
 byte-identical data.json so the daily sync only commits real changes.
 """
 
 import json
+import os
 import sqlite3
 from pathlib import Path
 
-DB = Path.home() / "transit" / "transit.db"
+DB = Path(os.environ.get("TRANSIT_DB", Path.home() / "transit" / "transit.db"))
 OUT = Path(__file__).resolve().parent.parent / "data.json"
 
 

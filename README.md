@@ -1,26 +1,31 @@
 # open transit tracker
 
-Static fleet-coverage tracker: ride every vehicle in the fleet, watch the grid fill in.
+A static tracker of fleet coverage. Ride each vehicle in a fleet. Then see the grid fill.
 
 **Live page:** https://wokhouse.github.io/open-transit-tracker/
 
-- `index.html` — the whole site. Fetches `data.json`, renders one fleet grid per agency (green = ridden, hover for ride date).
-- `data.json` — exported from the on-Pi SQLite DB (`~/transit/transit.db`).
-- `widget-<agency>.svg` — per-agency stat widgets; `widget-large-<agency>.svg` — contribution-graph-style fleet grids. Static SVG (no JS), dark/light aware. Embed in a GitHub profile README:
+## Files
 
-  ```markdown
-  ![SFMTA fleet coverage](https://raw.githubusercontent.com/wokhouse/open-transit-tracker/main/widget-sfmta-bus.svg)
-  ![SFMTA fleet grid](https://raw.githubusercontent.com/wokhouse/open-transit-tracker/main/widget-large-sfmta-bus.svg)
-  ```
+- `index.html` — the full site. The page gets `data.json` and shows one fleet grid for each agency. A green cell shows a ride. Hover over a cell to see the ride date.
+- `data.json` — the data for the site. A script exports this file from the tracker database.
+- `widgets/widget-<agency>.svg` — the status widget for one agency.
+- `widgets/widget-large-<agency>.svg` — the fleet grid for one agency, in the style of a contribution graph.
 
-  Available: `sfmta-bus`, `muni-metro`, `bart`, `ac-transit`, `caltrain`.
+The widget files are static SVG. They use no JavaScript. They obey the dark color scheme and the light color scheme. You can put a widget in a GitHub profile README:
 
-## How it updates
+```markdown
+![SFMTA fleet coverage](https://raw.githubusercontent.com/wokhouse/open-transit-tracker/main/widgets/widget-sfmta-bus.svg)
+![SFMTA fleet grid](https://raw.githubusercontent.com/wokhouse/open-transit-tracker/main/widgets/widget-large-sfmta-bus.svg)
+```
 
-A daily job on the Pi (`sleepy`) runs `scripts/sync.sh`:
+These agencies are available: `sfmta-bus`, `muni-metro`, `bart`, `ac-transit`, and `caltrain`.
 
-1. `scripts/export.py` reads the SQLite DB → writes `data.json` (canonical ordering, no timestamps).
-2. `scripts/make_widgets.py` regenerates the SVG widgets.
-3. If nothing changed → exits silently. If it did → one commit (`🚍 data update YYYY-MM-DD`) and push. Pages redeploys automatically.
+## How the site changes
 
-Logging rides stays wherever it always has: the Discord `/record-transit` slash command, the web app, or `transit.py add` on the Pi. This repo is read-only output.
+A task starts each day. The task does these steps:
+
+1. `scripts/export.py` reads the tracker database and writes `data.json`. The sequence of the data is always the same.
+2. `scripts/make_widgets.py` makes the SVG widgets again.
+3. If there is no change, the task stops with no output. If there is a change, the task makes one commit, then pushes the commit. The title of the commit is `🚍 data update YYYY-MM-DD`. The live page changes automatically.
+
+Record a ride with the Discord `/record-transit` command, with the web app, or with `transit.py add`. This repository is read-only output.

@@ -11,6 +11,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parent.parent
+WIDGETS = ROOT / "widgets"
 
 # widget title overrides (data.json keeps the DB name)
 TITLE_OVERRIDES = {
@@ -152,12 +153,13 @@ def make_large(agency, rides, ranges):
   <text class="stat" x="{w - 20}" y="{h - 11}" text-anchor="end">open transit tracker</text>
 </svg>
 """
-    out = ROOT / f"widget-large-{slug}.svg"
+    out = WIDGETS / f"widget-large-{slug}.svg"
     out.write_text(svg)
     print(f"wrote {out.name}  {len(rides)}/{total}, {len(cells)} squares")
 
 
 def main():
+    WIDGETS.mkdir(exist_ok=True)
     data = json.loads((ROOT / "data.json").read_text())
     rides_by_agency = {}
     for ride in data["rides"]:
@@ -198,7 +200,7 @@ def main():
             sub=escape(sub),
             label=escape(f"{title}: {ridden}/{total} ({pct:.2f}%)"),
         )
-        out = ROOT / f"widget-{slug}.svg"
+        out = WIDGETS / f"widget-{slug}.svg"
         out.write_text(svg)
         print(f"wrote {out.name}  {ridden}/{total} = {pct:.2f}%")
 

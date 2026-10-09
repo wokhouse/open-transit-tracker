@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Export DB -> data.json + widgets, commit & push only if something changed.
-# Called daily by the Hermes cron job. Silent no-op on days with no new rides.
+# Called daily by a scheduled job. Silent no-op on days with no new rides.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -13,13 +13,13 @@ if ! git rev-parse --verify -q origin/main >/dev/null; then
   exit 0
 fi
 
-CHANGED=$(git status --porcelain -- data.json widget-*.svg)
+CHANGED=$(git status --porcelain -- data.json widgets/)
 if [ -z "$CHANGED" ]; then
   echo "no changes - nothing to commit"
   exit 0
 fi
 
-git add data.json widget-*.svg
+git add data.json widgets/
 git commit -m "🚍 data update $(date -u +%Y-%m-%d)"
 git push origin main
 echo "pushed:"
