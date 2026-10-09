@@ -1283,6 +1283,20 @@
     },
     {
       "agency_slug": "sfmta-bus",
+      "vehicle": "6665",
+      "vehicle_num": 6665,
+      "line": null,
+      "date": "2026-10-09"
+    },
+    {
+      "agency_slug": "sfmta-bus",
+      "vehicle": "6669",
+      "vehicle_num": 6669,
+      "line": null,
+      "date": "2026-10-08"
+    },
+    {
+      "agency_slug": "sfmta-bus",
       "vehicle": "6680",
       "vehicle_num": 6680,
       "line": null,
