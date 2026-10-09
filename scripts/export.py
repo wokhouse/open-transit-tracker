@@ -17,6 +17,23 @@ def main():
     conn = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     try:
+        # fleet_ranges may carry an optional `cars` column: a JSON list of
+        # explicit car ids for fleets whose numbering is irregular (not a
+        # contiguous lo..hi range and not a numeric prefix). Emit it as a
+        # real list when present, else null.
+        range_cols = {r[1] for r in conn.execute("PRAGMA table_info(fleet_ranges)")}
+        has_cars = "cars" in range_cols
+        sel = "id, agency_slug, lo, hi, prefix, type, count" + \
+              (", cars" if has_cars else "")
+        ranges = []
+        for r in conn.execute(
+            f"SELECT {sel} FROM fleet_ranges ORDER BY agency_slug, id"
+        ):
+            d = {k: r[k] for k in r.keys() if k != "cars"}
+            if has_cars and r["cars"] not in (None, ""):
+                d["cars"] = json.loads(r["cars"])
+            ranges.append(d)
+
         data = {
             "agencies": [
                 dict(r)
@@ -24,13 +41,7 @@ def main():
                     "SELECT slug, name, total_fleet FROM agencies ORDER BY slug"
                 )
             ],
-            "ranges": [
-                dict(r)
-                for r in conn.execute(
-                    """SELECT id, agency_slug, lo, hi, prefix, type, count
-                       FROM fleet_ranges ORDER BY agency_slug, id"""
-                )
-            ],
+            "ranges": ranges,
             "rides": [
                 dict(r)
                 for r in conn.execute(

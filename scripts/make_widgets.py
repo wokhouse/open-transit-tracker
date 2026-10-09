@@ -47,6 +47,8 @@ TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" v
 
 
 def range_label(r):
+    if r.get("cars"):
+        return f"{r['cars'][0]}\u2013{r['cars'][-1]} (irregular)"
     if r["prefix"] is not None:
         return f"{r['prefix']}-series"
     if r["lo"] == r["hi"]:
@@ -66,8 +68,15 @@ def make_large(agency, rides, ranges):
     cells = []  # True = ridden
     numbered = set()
     prefix_nums = set()
+    explicit_nums = set()
     for rng in ranges:
-        if rng["lo"] is not None and rng["hi"] is not None:
+        if rng.get("cars"):
+            # explicit car list: one square per listed car, in list order
+            for c in rng["cars"]:
+                n = int("".join(ch for ch in str(c) if ch.isdigit()) or 0)
+                cells.append(n in ridden_set)
+                explicit_nums.add(n)
+        elif rng["lo"] is not None and rng["hi"] is not None:
             for n in range(rng["lo"], rng["hi"] + 1):
                 cells.append(n in ridden_set)
                 numbered.add(n)
@@ -95,6 +104,7 @@ def make_large(agency, rides, ranges):
             if r["vehicle_num"] is not None
             and r["vehicle_num"] not in numbered
             and r["vehicle_num"] not in prefix_nums
+            and r["vehicle_num"] not in explicit_nums
         )
         for i in range(leftover):
             cells.append(i < orphan)

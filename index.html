@@ -59,6 +59,7 @@ const num = v => {
   return m ? parseInt(m[1], 10) : null;
 };
 const rangeLabel = r => r.prefix != null ? r.prefix + "-series"
+  : r.cars ? r.cars[0] + "\u2013" + r.cars[r.cars.length - 1] + " (irregular)"
   : r.lo === r.hi ? String(r.lo) : r.lo + "\u2013" + r.hi;
 
 fetch("data.json").then(r => r.json()).then(data => {
@@ -104,34 +105,34 @@ fetch("data.json").then(r => r.json()).then(data => {
       `<div class="track"><div class="fill" style="width:${Math.min(pct, 100)}%"></div></div>`;
 
     for (const rng of rangesByAgency[a.slug] || []) {
-      const nums = [];
-      if (rng.lo !== null && rng.hi !== null) {
-        for (let n = rng.lo; n <= rng.hi; n++) nums.push(n);
+      const cells = [];              // {label, num} — num used for ridden lookup
+      if (rng.cars) {
+        // explicit car list (irregular numbering, e.g. Caltrain KISS coaches)
+        for (const c of rng.cars) cells.push({ label: c, num: num(c) });
+      } else if (rng.lo !== null && rng.hi !== null) {
+        for (let n = rng.lo; n <= rng.hi; n++) cells.push({ label: n, num: n });
       }
-      const riddenIn = rng.prefix != null
-        ? rides.filter(r => r.vehicle_num !== null &&
-            String(r.vehicle_num).startsWith(String(rng.prefix))).length
-        : nums.filter(n => riddenMap.has(n)).length;
-      const denom = rng.count ?? nums.length;
+      const riddenIn = cells.filter(c => c.num != null && riddenMap.has(c.num)).length;
+      const denom = rng.count ?? cells.length;
 
       const rsec = document.createElement("div");
       rsec.className = "range";
       let head =
         `<div class="range-head"><h3>${rng.type}<small>${rangeLabel(rng)}</small></h3>` +
         `<span>${riddenIn}/${denom}</span></div>`;
-      if (!nums.length) {
-        // prefix-only range: no grid to draw, show a summary row
+      if (!cells.length) {
+        // no drawable cells: show a summary row
         rsec.innerHTML = head + `<div class="prefix-note">${riddenIn} of ${denom} ridden</div>`;
         sec.appendChild(rsec);
         continue;
       }
       rsec.innerHTML = head + `<div class="grid"></div>`;
       const grid = rsec.querySelector(".grid");
-      for (const n of nums) {
+      for (const { label, num: n } of cells) {
         const cell = document.createElement("span");
-        cell.className = "cell" + (riddenMap.has(n) ? " ridden" : "");
-        cell.textContent = n;
-        const ride = riddenMap.get(n);
+        cell.className = "cell" + (n != null && riddenMap.has(n) ? " ridden" : "");
+        cell.textContent = label;
+        const ride = n != null ? riddenMap.get(n) : null;
         if (ride) cell.title = `${ride.vehicle} — ridden ${ride.date || "unknown date"}`;
         grid.appendChild(cell);
       }
