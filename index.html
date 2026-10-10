@@ -44,6 +44,18 @@
   .cell.ridden:hover { background: var(--green-hover); }
   footer { color: var(--faint); font-size: 0.8rem; margin-top: 3rem; }
   footer a { color: var(--muted); }
+  /* record bar: only injected when /api/config says this copy is writable */
+  .record { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+    margin: 0 0 2rem; padding: 0.9rem 1rem; background: var(--card);
+    border: 1px solid var(--border); border-radius: 8px; }
+  .record select, .record input {
+    background: var(--bg); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.45rem 0.6rem; font: inherit; }
+  .record input { width: 9rem; }
+  .record button { background: var(--green); color: #022c22; font-weight: 600;
+    border: 0; border-radius: 6px; padding: 0.5rem 0.9rem; cursor: pointer; }
+  .record button:hover { background: var(--green-hover); }
+  .record .msg { color: var(--muted); font-size: 0.85rem; }
 </style>
 </head>
 <body>
@@ -62,7 +74,7 @@ const rangeLabel = r => r.prefix != null ? r.prefix + "-series"
   : r.cars ? r.cars[0] + "\u2013" + r.cars[r.cars.length - 1] + " (irregular)"
   : r.lo === r.hi ? String(r.lo) : r.lo + "\u2013" + r.hi;
 
-fetch("data.json").then(r => r.json()).then(data => {
+function render(data) {
   const ridesByAgency = {};
   for (const ride of data.rides)
     (ridesByAgency[ride.agency_slug] ??= []).push(ride);
@@ -140,9 +152,50 @@ fetch("data.json").then(r => r.json()).then(data => {
     }
     app.appendChild(sec);
   }
-}).catch(err => {
+}
+
+function mountRecordBar(cfg) {
+  const bar = document.createElement("div");
+  bar.className = "record";
+  const opts = cfg.agencies.map(a =>
+    `<option value="${a.slug}">${a.name} (${a.ridden}/${a.total_fleet})</option>`).join("");
+  bar.innerHTML =
+    `<select id="rec-agency">${opts}</select>` +
+    `<input id="rec-vehicle" placeholder="vehicle #" autocomplete="off">` +
+    `<input id="rec-date" type="date" style="width:10rem">` +
+    `<button id="rec-go">record ride</button>` +
+    `<span class="msg" id="rec-msg">local: writes go to the tracker DB</span>`;
+  const app = document.getElementById("app");
+  app.parentNode.insertBefore(bar, app);
+  document.getElementById("rec-go").onclick = async () => {
+    const agency_slug = document.getElementById("rec-agency").value;
+    const vehicle = document.getElementById("rec-vehicle").value.trim();
+    const date = document.getElementById("rec-date").value || undefined;
+    const msg = document.getElementById("rec-msg");
+    if (!vehicle) { msg.textContent = "enter a vehicle number"; return; }
+    const r = await fetch("api/ride", {method: "POST",
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify({agency_slug, vehicle, date})});
+    const j = await r.json();
+    if (!r.ok || !j.ok) { msg.textContent = j.error || "failed"; return; }
+    msg.textContent = j.new
+      ? `added ${j.vehicle} on ${j.date} — ${j.count}/${j.total} (${j.pct}%)`
+      : `${j.vehicle} already ridden`;
+    document.getElementById("rec-vehicle").value = "";
+    fetch("data.json", {cache: "no-store"}).then(x => x.json())
+      .then(render);
+  };
+}
+
+fetch("data.json").then(r => r.json()).then(render).catch(err => {
   document.getElementById("app").innerHTML = `<p class="sub">failed to load data.json: ${err}</p>`;
 });
+// Writable copies (the local server) expose /api/config. GitHub Pages
+// 404s it, so the same page stays read-only there.
+fetch("api/config", {cache: "no-store"}).then(r => r.ok ? r.json() : null)
+  .then(cfg => { if (cfg && cfg.writable) mountRecordBar(cfg); })
+  .catch(() => {});
+
 </script>
 </body>
 </html>
