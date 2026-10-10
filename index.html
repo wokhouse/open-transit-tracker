@@ -160,9 +160,8 @@ function mountRecordBar(cfg) {
   const opts = cfg.agencies.map(a =>
     `<option value="${a.slug}">${a.name} (${a.ridden}/${a.total_fleet})</option>`).join("");
   bar.innerHTML =
-    `<select id="rec-agency">${opts}</select>` +
     `<input id="rec-vehicle" placeholder="vehicle #" autocomplete="off">` +
-    `<input id="rec-date" type="date" style="width:10rem">` +
+    `<select id="rec-agency">${opts}</select>` +
     `<button id="rec-go">record ride</button>` +
     `<span class="msg" id="rec-msg">local: writes go to the tracker DB</span>`;
   const app = document.getElementById("app");
@@ -170,12 +169,11 @@ function mountRecordBar(cfg) {
   document.getElementById("rec-go").onclick = async () => {
     const agency_slug = document.getElementById("rec-agency").value;
     const vehicle = document.getElementById("rec-vehicle").value.trim();
-    const date = document.getElementById("rec-date").value || undefined;
     const msg = document.getElementById("rec-msg");
     if (!vehicle) { msg.textContent = "enter a vehicle number"; return; }
     const r = await fetch("api/ride", {method: "POST",
       headers: {"content-type": "application/json"},
-      body: JSON.stringify({agency_slug, vehicle, date})});
+      body: JSON.stringify({agency_slug, vehicle})});
     const j = await r.json();
     if (!r.ok || !j.ok) { msg.textContent = j.error || "failed"; return; }
     msg.textContent = j.new
