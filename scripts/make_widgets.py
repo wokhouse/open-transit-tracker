@@ -15,7 +15,7 @@ WIDGETS = ROOT / "widgets"
 
 # widget title overrides (data.json keeps the DB name)
 TITLE_OVERRIDES = {
-    "sfmta-bus": "SFMTA Bus Fleet",
+    "sfmta-bus": "MUNI Bus Fleet",
 }
 
 W, H = 420, 120

@@ -17,12 +17,12 @@
     },
     {
       "slug": "muni-metro",
-      "name": "Muni Metro",
+      "name": "MUNI Metro",
       "total_fleet": 219
     },
     {
       "slug": "sfmta-bus",
-      "name": "SFMTA Muni Bus",
+      "name": "MUNI Bus",
       "total_fleet": 864
     }
   ],
