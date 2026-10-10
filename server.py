@@ -114,6 +114,8 @@ class Handler(SimpleHTTPRequestHandler):
         except ValueError:
             return self._json(400, {"ok": False, "error": "bad json"})
         agency = str(payload.get("agency_slug", "")).strip()
+        # old slugs from before the MUNI merge map onto the SFMTA agency
+        agency = {"sfmta-bus": "sfmta", "muni-metro": "sfmta"}.get(agency, agency)
         vehicle = str(payload.get("vehicle", "")).strip()
         line = payload.get("line")
         date = payload.get("date") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -151,6 +153,7 @@ class Handler(SimpleHTTPRequestHandler):
     def do_DELETE(self):
         q = parse_qs(urlparse(self.path).query)
         agency = (q.get("agency") or [""])[0]
+        agency = {"sfmta-bus": "sfmta", "muni-metro": "sfmta"}.get(agency, agency)
         vehicle = (q.get("vehicle") or [""])[0]
         conn = db()
         try:

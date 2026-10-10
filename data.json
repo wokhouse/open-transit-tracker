@@ -16,14 +16,9 @@
       "total_fleet": 161
     },
     {
-      "slug": "muni-metro",
-      "name": "MUNI Metro",
-      "total_fleet": 219
-    },
-    {
-      "slug": "sfmta-bus",
-      "name": "MUNI Bus",
-      "total_fleet": 864
+      "slug": "sfmta",
+      "name": "SFMTA",
+      "total_fleet": 1083
     }
   ],
   "ranges": [
@@ -397,17 +392,8 @@
       ]
     },
     {
-      "id": 10,
-      "agency_slug": "muni-metro",
-      "lo": 2001,
-      "hi": 2219,
-      "prefix": null,
-      "type": "Siemens S200 LRV4",
-      "count": 219
-    },
-    {
       "id": 1,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 5701,
       "hi": 5885,
       "prefix": null,
@@ -416,7 +402,7 @@
     },
     {
       "id": 2,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 7201,
       "hi": 7293,
       "prefix": null,
@@ -425,7 +411,7 @@
     },
     {
       "id": 3,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 6500,
       "hi": 6554,
       "prefix": null,
@@ -434,7 +420,7 @@
     },
     {
       "id": 4,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 6560,
       "hi": 6697,
       "prefix": null,
@@ -443,7 +429,7 @@
     },
     {
       "id": 5,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 6700,
       "hi": 6730,
       "prefix": null,
@@ -452,7 +438,7 @@
     },
     {
       "id": 6,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 8601,
       "hi": 8662,
       "prefix": null,
@@ -461,7 +447,7 @@
     },
     {
       "id": 7,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 8701,
       "hi": 8750,
       "prefix": null,
@@ -470,7 +456,7 @@
     },
     {
       "id": 8,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 8751,
       "hi": 8780,
       "prefix": null,
@@ -479,12 +465,21 @@
     },
     {
       "id": 9,
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "lo": 8800,
       "hi": 8969,
       "prefix": null,
       "type": "40ft hybrid XDE40",
       "count": 170
+    },
+    {
+      "id": 10,
+      "agency_slug": "sfmta",
+      "lo": 2001,
+      "hi": 2219,
+      "prefix": null,
+      "type": "Siemens S200 LRV4",
+      "count": 219
     }
   ],
   "rides": [
@@ -720,861 +715,861 @@
       "date": "2026-08-14"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2010",
       "vehicle_num": 2010,
       "line": null,
       "date": "2026-10-06"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2019B",
       "vehicle_num": 2019,
       "line": null,
       "date": "2026-07-15"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2043",
       "vehicle_num": 2043,
       "line": null,
       "date": "2026-07-24"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2052",
       "vehicle_num": 2052,
       "line": null,
       "date": "2026-09-03"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2053",
       "vehicle_num": 2053,
       "line": null,
       "date": "2026-09-04"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2079",
       "vehicle_num": 2079,
       "line": null,
       "date": "2026-07-29"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2080",
       "vehicle_num": 2080,
       "line": null,
       "date": "2026-09-07"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2096",
       "vehicle_num": 2096,
       "line": null,
       "date": "2026-09-08"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2100A",
       "vehicle_num": 2100,
       "line": null,
       "date": "2026-07-16"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2103",
       "vehicle_num": 2103,
       "line": null,
       "date": "2026-08-14"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2113",
       "vehicle_num": 2113,
       "line": null,
       "date": "2026-10-06"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2122",
       "vehicle_num": 2122,
       "line": null,
       "date": "2026-09-07"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2131",
       "vehicle_num": 2131,
       "line": null,
       "date": "2026-07-31"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2140",
       "vehicle_num": 2140,
       "line": null,
       "date": "2026-07-29"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2146",
       "vehicle_num": 2146,
       "line": null,
       "date": "2026-08-03"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2161",
       "vehicle_num": 2161,
       "line": null,
       "date": "2026-08-29"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2172",
       "vehicle_num": 2172,
       "line": null,
       "date": "2026-10-03"
     },
     {
-      "agency_slug": "muni-metro",
+      "agency_slug": "sfmta",
       "vehicle": "2195",
       "vehicle_num": 2195,
       "line": null,
       "date": "2026-09-09"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "3597",
       "vehicle_num": 3597,
       "line": null,
       "date": "2026-09-08"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "3723",
       "vehicle_num": 3723,
       "line": null,
       "date": "2026-10-05"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5698",
       "vehicle_num": 5698,
       "line": null,
       "date": "2026-08-06"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5738",
       "vehicle_num": 5738,
       "line": null,
       "date": "2026-08-22"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5739",
       "vehicle_num": 5739,
       "line": null,
       "date": "2026-09-08"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5742",
       "vehicle_num": 5742,
       "line": null,
       "date": "2026-07-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5746",
       "vehicle_num": 5746,
       "line": "22",
       "date": "2026-06-30"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5747",
       "vehicle_num": 5747,
       "line": null,
       "date": "2026-10-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5748",
       "vehicle_num": 5748,
       "line": null,
       "date": "2026-09-07"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5749",
       "vehicle_num": 5749,
       "line": null,
       "date": "2026-09-27"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5752",
       "vehicle_num": 5752,
       "line": null,
       "date": "2026-07-19"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5755",
       "vehicle_num": 5755,
       "line": null,
       "date": "2026-07-10"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5758",
       "vehicle_num": 5758,
       "line": null,
       "date": "2026-08-21"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5759",
       "vehicle_num": 5759,
       "line": null,
       "date": "2026-07-20"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5760",
       "vehicle_num": 5760,
       "line": null,
       "date": "2026-08-02"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5761",
       "vehicle_num": 5761,
       "line": null,
       "date": "2026-08-23"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5763",
       "vehicle_num": 5763,
       "line": null,
       "date": "2026-10-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5766",
       "vehicle_num": 5766,
       "line": null,
       "date": "2026-07-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5769",
       "vehicle_num": 5769,
       "line": null,
       "date": "2026-07-21"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5771",
       "vehicle_num": 5771,
       "line": null,
       "date": "2026-08-06"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5774",
       "vehicle_num": 5774,
       "line": null,
       "date": "2026-09-13"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5775",
       "vehicle_num": 5775,
       "line": null,
       "date": "2026-08-08"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5776",
       "vehicle_num": 5776,
       "line": null,
       "date": null
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5779",
       "vehicle_num": 5779,
       "line": null,
       "date": "2026-08-30"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5782",
       "vehicle_num": 5782,
       "line": null,
       "date": "2026-10-05"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5784",
       "vehicle_num": 5784,
       "line": null,
       "date": "2026-08-16"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5785",
       "vehicle_num": 5785,
       "line": null,
       "date": "2026-09-05"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5787",
       "vehicle_num": 5787,
       "line": null,
       "date": "2026-09-13"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5788",
       "vehicle_num": 5788,
       "line": null,
       "date": "2026-08-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5791",
       "vehicle_num": 5791,
       "line": null,
       "date": "2026-09-26"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5792",
       "vehicle_num": 5792,
       "line": null,
       "date": "2026-08-26"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5793",
       "vehicle_num": 5793,
       "line": null,
       "date": "2026-10-02"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5795",
       "vehicle_num": 5795,
       "line": null,
       "date": "2026-07-24"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5800",
       "vehicle_num": 5800,
       "line": null,
       "date": "2026-08-21"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5801",
       "vehicle_num": 5801,
       "line": null,
       "date": "2026-10-05"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5804",
       "vehicle_num": 5804,
       "line": null,
       "date": null
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5812",
       "vehicle_num": 5812,
       "line": null,
       "date": "2026-09-01"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5818",
       "vehicle_num": 5818,
       "line": null,
       "date": "2026-09-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5820",
       "vehicle_num": 5820,
       "line": null,
       "date": "2026-08-11"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5821",
       "vehicle_num": 5821,
       "line": null,
       "date": "2026-07-27"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5824",
       "vehicle_num": 5824,
       "line": null,
       "date": "2026-10-01"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5828",
       "vehicle_num": 5828,
       "line": null,
       "date": "2026-07-18"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5834",
       "vehicle_num": 5834,
       "line": null,
       "date": "2026-10-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5836",
       "vehicle_num": 5836,
       "line": null,
       "date": "2026-07-28"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5837",
       "vehicle_num": 5837,
       "line": null,
       "date": "2026-07-27"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5838",
       "vehicle_num": 5838,
       "line": null,
       "date": "2026-09-01"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5842",
       "vehicle_num": 5842,
       "line": null,
       "date": "2026-07-27"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5843",
       "vehicle_num": 5843,
       "line": null,
       "date": "2026-10-06"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5844",
       "vehicle_num": 5844,
       "line": null,
       "date": "2026-08-26"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5845",
       "vehicle_num": 5845,
       "line": null,
       "date": "2026-09-12"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5848",
       "vehicle_num": 5848,
       "line": null,
       "date": "2026-08-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5856",
       "vehicle_num": 5856,
       "line": null,
       "date": "2026-09-27"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5857",
       "vehicle_num": 5857,
       "line": null,
       "date": "2026-09-01"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5860",
       "vehicle_num": 5860,
       "line": null,
       "date": "2026-07-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5862",
       "vehicle_num": 5862,
       "line": null,
       "date": "2026-08-26"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5863",
       "vehicle_num": 5863,
       "line": null,
       "date": "2026-10-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5864",
       "vehicle_num": 5864,
       "line": null,
       "date": "2026-07-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5865",
       "vehicle_num": 5865,
       "line": null,
       "date": "2026-09-12"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5867",
       "vehicle_num": 5867,
       "line": null,
       "date": "2026-08-06"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5870",
       "vehicle_num": 5870,
       "line": null,
       "date": "2026-08-06"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5871",
       "vehicle_num": 5871,
       "line": null,
       "date": "2026-07-11"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5876",
       "vehicle_num": 5876,
       "line": "5",
       "date": "2026-06-24"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5877",
       "vehicle_num": 5877,
       "line": null,
       "date": "2026-10-08"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5879",
       "vehicle_num": 5879,
       "line": null,
       "date": "2026-10-05"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5881",
       "vehicle_num": 5881,
       "line": null,
       "date": "2026-07-22"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5882",
       "vehicle_num": 5882,
       "line": null,
       "date": "2026-08-02"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5883",
       "vehicle_num": 5883,
       "line": null,
       "date": "2026-08-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "5885",
       "vehicle_num": 5885,
       "line": null,
       "date": "2026-08-20"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6538",
       "vehicle_num": 6538,
       "line": null,
       "date": "2026-08-14"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6566",
       "vehicle_num": 6566,
       "line": null,
       "date": "2026-08-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6571",
       "vehicle_num": 6571,
       "line": null,
       "date": "2026-09-14"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6615",
       "vehicle_num": 6615,
       "line": null,
       "date": "2026-09-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6622",
       "vehicle_num": 6622,
       "line": null,
       "date": "2026-07-19"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6626",
       "vehicle_num": 6626,
       "line": null,
       "date": "2026-09-18"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6641",
       "vehicle_num": 6641,
       "line": "49",
       "date": "2026-06-24"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6642",
       "vehicle_num": 6642,
       "line": "49",
       "date": "2026-06-28"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6645",
       "vehicle_num": 6645,
       "line": null,
       "date": "2026-07-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6650",
       "vehicle_num": 6650,
       "line": null,
       "date": "2026-08-13"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6654",
       "vehicle_num": 6654,
       "line": null,
       "date": "2026-08-22"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6656",
       "vehicle_num": 6656,
       "line": null,
       "date": "2026-07-22"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6665",
       "vehicle_num": 6665,
       "line": null,
       "date": "2026-10-09"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6669",
       "vehicle_num": 6669,
       "line": null,
       "date": "2026-10-08"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "6680",
       "vehicle_num": 6680,
       "line": null,
       "date": "2026-07-20"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7201",
       "vehicle_num": 7201,
       "line": null,
       "date": "2026-09-12"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7211",
       "vehicle_num": 7211,
       "line": null,
       "date": "2026-10-03"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7212",
       "vehicle_num": 7212,
       "line": null,
       "date": "2026-08-14"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7229",
       "vehicle_num": 7229,
       "line": null,
       "date": "2026-08-11"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7231",
       "vehicle_num": 7231,
       "line": null,
       "date": "2026-09-09"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7233",
       "vehicle_num": 7233,
       "line": null,
       "date": "2026-07-14"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "7241",
       "vehicle_num": 7241,
       "line": null,
       "date": "2026-07-16"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8605",
       "vehicle_num": 8605,
       "line": null,
       "date": "2026-08-18"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8608",
       "vehicle_num": 8608,
       "line": "5",
       "date": "2026-06-30"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8629",
       "vehicle_num": 8629,
       "line": null,
       "date": "2026-07-18"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8635",
       "vehicle_num": 8635,
       "line": null,
       "date": "2026-08-20"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8639",
       "vehicle_num": 8639,
       "line": "29",
       "date": "2026-06-24"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8640",
       "vehicle_num": 8640,
       "line": null,
       "date": "2026-09-15"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8712",
       "vehicle_num": 8712,
       "line": null,
       "date": "2026-08-28"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8716",
       "vehicle_num": 8716,
       "line": null,
       "date": "2026-07-30"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8747",
       "vehicle_num": 8747,
       "line": null,
       "date": "2026-07-29"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8770",
       "vehicle_num": 8770,
       "line": null,
       "date": "2026-07-25"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8819",
       "vehicle_num": 8819,
       "line": null,
       "date": "2026-09-09"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8877",
       "vehicle_num": 8877,
       "line": null,
       "date": "2026-07-17"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8885",
       "vehicle_num": 8885,
       "line": null,
       "date": "2026-07-02"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8912",
       "vehicle_num": 8912,
       "line": "19",
       "date": "2026-06-24"
     },
     {
-      "agency_slug": "sfmta-bus",
+      "agency_slug": "sfmta",
       "vehicle": "8940",
       "vehicle_num": 8940,
       "line": null,

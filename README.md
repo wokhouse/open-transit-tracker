@@ -13,11 +13,11 @@ A static tracker of fleet coverage. Ride each vehicle in a fleet. Then see the g
 The widget files are not in the repository. The build task makes them. The widgets are static SVG. They use no JavaScript. They obey the dark color scheme and the light color scheme. You can put a widget in a GitHub profile README:
 
 ```markdown
-![SFMTA fleet coverage](https://wokhouse.github.io/open-transit-tracker/widgets/widget-sfmta-bus.svg)
-![SFMTA fleet grid](https://wokhouse.github.io/open-transit-tracker/widgets/widget-large-sfmta-bus.svg)
+![SFMTA fleet coverage](https://wokhouse.github.io/open-transit-tracker/widgets/widget-sfmta.svg)
+![SFMTA fleet grid](https://wokhouse.github.io/open-transit-tracker/widgets/widget-large-sfmta.svg)
 ```
 
-These agencies are available: `sfmta-bus`, `muni-metro`, `bart`, `ac-transit`, and `caltrain`. To make the widgets before a push, run `python3 scripts/make_widgets.py`. The script writes them to `widgets/`.
+These agencies are available: `sfmta` (Muni bus, trolleybus, and Metro), `bart`, `ac-transit`, and `caltrain`. To make the widgets before a push, run `python3 scripts/make_widgets.py`. The script writes them to `widgets/`.
 
 ## How the site changes
 
