@@ -707,6 +707,13 @@
     },
     {
       "agency_slug": "caltrain",
+      "vehicle": "3372",
+      "vehicle_num": 3372,
+      "line": null,
+      "date": "2026-10-09"
+    },
+    {
+      "agency_slug": "caltrain",
       "vehicle": "3376",
       "vehicle_num": 3376,
       "line": null,

@@ -40,8 +40,17 @@
     font: 11px/26px ui-monospace, "SF Mono", Menlo, monospace;
     text-align: center; user-select: none;
   }
-  .cell.ridden { background: var(--green); color: #022c22; font-weight: 600; cursor: default; }
+  .cell.ridden { background: var(--green); color: #022c22; font-weight: 600; cursor: pointer; }
   .cell.ridden:hover { background: var(--green-hover); }
+  /* ride tooltip: date always, delete button only on writable copies */
+  .tip { position: fixed; z-index: 10; background: var(--card);
+    border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem;
+    font-size: 0.85rem; box-shadow: 0 6px 24px rgba(0,0,0,.5); max-width: 16rem; }
+  .tip .tip-agency { color: var(--muted); }
+  .tip .tip-date { color: var(--muted); display: block; margin: 0.15rem 0 0.45rem; }
+  .tip button { background: #e05565; color: #fff; border: 0; border-radius: 6px;
+    padding: 0.35rem 0.7rem; cursor: pointer; font: inherit; }
+  .tip button:hover { background: #f06a6d; }
   footer { color: var(--faint); font-size: 0.8rem; margin-top: 3rem; }
   footer a { color: var(--muted); }
   /* record bar: only injected when /api/config says this copy is writable */
@@ -70,11 +79,58 @@ const num = v => {
   const m = String(v).match(/(\d+)/);
   return m ? parseInt(m[1], 10) : null;
 };
+let WRITABLE = false;   // true only on the local server copy (/api/config)
+let lastData = null;
+let tipEl = null;
+
+function closeTip() { if (tipEl) { tipEl.remove(); tipEl = null; } }
+document.addEventListener("click", e => {
+  if (tipEl && !tipEl.contains(e.target) && !e.target.classList.contains("ridden")) closeTip();
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeTip(); });
+
+function showTip(cell, agency, ride) {
+  closeTip();
+  tipEl = document.createElement("div");
+  tipEl.className = "tip";
+  tipEl.innerHTML =
+    `<strong>${ride.vehicle}</strong> <span class="tip-agency">${agency.name}</span>` +
+    `<span class="tip-date">ridden ${ride.date || "unknown date"}</span>`;
+  if (WRITABLE) {
+    const del = document.createElement("button");
+    del.textContent = "delete ride";
+    del.onclick = async () => {
+      const r = await fetch(`api/ride?agency=${encodeURIComponent(agency.slug)}` +
+        `&vehicle=${encodeURIComponent(ride.vehicle)}`, {method: "DELETE"});
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) {
+        const msg = document.createElement("span");
+        msg.className = "tip-date";
+        msg.textContent = j.error || "delete failed";
+        tipEl.appendChild(msg);
+        return;
+      }
+      closeTip();
+      fetch("data.json", {cache: "no-store"}).then(x => x.json()).then(render);
+    };
+    tipEl.appendChild(del);
+  }
+  document.body.appendChild(tipEl);
+  const rect = cell.getBoundingClientRect();
+  const tw = tipEl.offsetWidth, th = tipEl.offsetHeight;
+  let x = rect.left + rect.width / 2 - tw / 2;
+  let y = rect.bottom + 6;
+  x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
+  if (y + th > window.innerHeight - 8) y = rect.top - th - 6;
+  tipEl.style.left = x + "px";
+  tipEl.style.top = y + "px";
+}
 const rangeLabel = r => r.prefix != null ? r.prefix + "-series"
   : r.cars ? r.cars[0] + "\u2013" + r.cars[r.cars.length - 1] + " (irregular)"
   : r.lo === r.hi ? String(r.lo) : r.lo + "\u2013" + r.hi;
 
 function render(data) {
+  lastData = data;
   const ridesByAgency = {};
   for (const ride of data.rides)
     (ridesByAgency[ride.agency_slug] ??= []).push(ride);
@@ -142,10 +198,13 @@ function render(data) {
       const grid = rsec.querySelector(".grid");
       for (const { label, num: n } of cells) {
         const cell = document.createElement("span");
-        cell.className = "cell" + (n != null && riddenMap.has(n) ? " ridden" : "");
-        cell.textContent = label;
         const ride = n != null ? riddenMap.get(n) : null;
-        if (ride) cell.title = `${ride.vehicle} — ridden ${ride.date || "unknown date"}`;
+        cell.className = "cell" + (ride ? " ridden" : "");
+        cell.textContent = label;
+        if (ride) {
+          cell.title = `${ride.vehicle} — ridden ${ride.date || "unknown date"}`;
+          cell.onclick = e => { e.stopPropagation(); showTip(cell, a, ride); };
+        }
         grid.appendChild(cell);
       }
       sec.appendChild(rsec);
@@ -155,6 +214,7 @@ function render(data) {
 }
 
 function mountRecordBar(cfg) {
+  WRITABLE = true;
   const bar = document.createElement("div");
   bar.className = "record";
   const opts = cfg.agencies.map(a =>
