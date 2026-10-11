@@ -18,7 +18,7 @@
     {
       "slug": "sfmta",
       "name": "SFMTA",
-      "total_fleet": 1083
+      "total_fleet": 1093
     }
   ],
   "ranges": [
@@ -480,6 +480,99 @@
       "prefix": null,
       "type": "Siemens S200 LRV4",
       "count": 219
+    },
+    {
+      "id": 39,
+      "agency_slug": "sfmta",
+      "lo": null,
+      "hi": null,
+      "prefix": null,
+      "type": "PCC historic streetcar",
+      "count": 32,
+      "cars": [
+        "1006",
+        "1007",
+        "1008",
+        "1009",
+        "1010",
+        "1011",
+        "1015",
+        "1040",
+        "1050",
+        "1051",
+        "1052",
+        "1053",
+        "1055",
+        "1056",
+        "1057",
+        "1058",
+        "1059",
+        "1060",
+        "1061",
+        "1062",
+        "1063",
+        "1070",
+        "1071",
+        "1072",
+        "1073",
+        "1074",
+        "1075",
+        "1076",
+        "1077",
+        "1078",
+        "1079",
+        "1080"
+      ]
+    },
+    {
+      "id": 40,
+      "agency_slug": "sfmta",
+      "lo": null,
+      "hi": null,
+      "prefix": null,
+      "type": "Peter Witt (Milan) historic streetcar",
+      "count": 11,
+      "cars": [
+        "1807",
+        "1811",
+        "1814",
+        "1815",
+        "1818",
+        "1834",
+        "1856",
+        "1859",
+        "1888",
+        "1893",
+        "1895"
+      ]
+    },
+    {
+      "id": 41,
+      "agency_slug": "sfmta",
+      "lo": null,
+      "hi": null,
+      "prefix": null,
+      "type": "historic streetcar (veteran/overseas)",
+      "count": 17,
+      "cars": [
+        "C-1",
+        "1",
+        "130",
+        "151",
+        "162",
+        "189",
+        "228",
+        "233",
+        "351",
+        "496",
+        "578-J",
+        "578",
+        "737",
+        "798",
+        "913",
+        "916",
+        "952"
+      ]
     }
   ],
   "rides": [
@@ -496,6 +589,13 @@
       "vehicle_num": 1726,
       "line": null,
       "date": "2026-08-01"
+    },
+    {
+      "agency_slug": "ac-transit",
+      "vehicle": "6148",
+      "vehicle_num": 6148,
+      "line": null,
+      "date": "2026-10-11"
     },
     {
       "agency_slug": "bart",
@@ -580,6 +680,13 @@
       "vehicle_num": 4401,
       "line": null,
       "date": "2026-07-23"
+    },
+    {
+      "agency_slug": "bart",
+      "vehicle": "4439",
+      "vehicle_num": 4439,
+      "line": null,
+      "date": "2026-10-11"
     },
     {
       "agency_slug": "bart",
@@ -1280,6 +1387,13 @@
       "vehicle_num": 5871,
       "line": null,
       "date": "2026-07-11"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "5872",
+      "vehicle_num": 5872,
+      "line": null,
+      "date": "2026-10-10"
     },
     {
       "agency_slug": "sfmta",
