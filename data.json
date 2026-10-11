@@ -3,12 +3,12 @@
     {
       "slug": "ac-transit",
       "name": "AC Transit",
-      "total_fleet": 630
+      "total_fleet": 687
     },
     {
       "slug": "bart",
       "name": "BART",
-      "total_fleet": 775
+      "total_fleet": 1070
     },
     {
       "slug": "caltrain",
@@ -158,15 +158,6 @@
       "count": 35
     },
     {
-      "id": 28,
-      "agency_slug": "ac-transit",
-      "lo": 6001,
-      "hi": 6079,
-      "prefix": null,
-      "type": "MCI Transbay 40ft",
-      "count": 54
-    },
-    {
       "id": 29,
       "agency_slug": "ac-transit",
       "lo": 6101,
@@ -188,10 +179,10 @@
       "id": 31,
       "agency_slug": "ac-transit",
       "lo": 6301,
-      "hi": 6335,
+      "hi": 6336,
       "prefix": null,
       "type": "MCI Transbay 45ft",
-      "count": 35
+      "count": 36
     },
     {
       "id": 32,
@@ -239,6 +230,24 @@
       "count": 21
     },
     {
+      "id": 42,
+      "agency_slug": "ac-transit",
+      "lo": 1701,
+      "hi": 1750,
+      "prefix": null,
+      "type": "Gillig 40ft",
+      "count": 50
+    },
+    {
+      "id": 43,
+      "agency_slug": "ac-transit",
+      "lo": 2501,
+      "hi": 2509,
+      "prefix": null,
+      "type": "New Flyer XHE60 Hydrogen 60ft",
+      "count": 9
+    },
+    {
       "id": 11,
       "agency_slug": "bart",
       "lo": 3001,
@@ -251,10 +260,10 @@
       "id": 12,
       "agency_slug": "bart",
       "lo": 4001,
-      "hi": 4465,
+      "hi": 4760,
       "prefix": null,
       "type": "Passenger car (E-car, Fleet of the Future)",
-      "count": 465
+      "count": 760
     },
     {
       "id": 37,
