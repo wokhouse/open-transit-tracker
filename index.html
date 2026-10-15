@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>open transit tracker</title>
-<meta name="description" content="Open transit fleet coverage tracker — riding every vehicle in the fleet.">
+<meta name="description" content="Open transit fleet coverage tracker.">
 <style>
   :root {
     --bg: #09090b; --card: #18181b; --border: #27272a;
@@ -75,7 +75,7 @@
 <body>
 <main>
   <h1>🚍 open transit tracker</h1>
-  <p class="sub">riding every vehicle in the fleet</p>
+  <p class="sub" id="updated" hidden></p>
   <div id="app"><p class="sub">loading…</p></div>
   <footer>data auto-updates daily · <a href="https://github.com/wokhouse/open-transit-tracker">source</a></footer>
 </main>
@@ -136,6 +136,14 @@ const rangeLabel = r => r.prefix != null ? r.prefix + "-series"
 
 function render(data) {
   lastData = data;
+  if (data.updated) {
+    const sub = document.getElementById("updated");
+    sub.textContent = "last updated " + data.updated;
+    sub.hidden = false;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content",
+      "Open transit fleet coverage tracker — last updated " + data.updated + ".");
+  }
   const ridesByAgency = {};
   for (const ride of data.rides)
     (ridesByAgency[ride.agency_slug] ??= []).push(ride);
@@ -228,7 +236,7 @@ function mountRecordBar(cfg) {
     `<input id="rec-vehicle" placeholder="vehicle #" autocomplete="off">` +
     `<select id="rec-agency">${opts}</select>` +
     `<button id="rec-go">record ride</button>` +
-    `<span class="msg" id="rec-msg">local: writes go to the tracker DB</span>`;
+    `<span class="msg" id="rec-msg"></span>`;
   const app = document.getElementById("app");
   app.parentNode.insertBefore(bar, app);
   document.getElementById("rec-go").onclick = async () => {

@@ -13,6 +13,17 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).resolve().parent.parent
 WIDGETS = ROOT / "widgets"
 
+REPO_URL = "https://github.com/wokhouse/open-transit-tracker"
+
+
+def updated_prefix(data):
+    """'updated M/D/YYYY \\u00b7 ' from data.json's updated stamp, or '' if absent."""
+    stamp = data.get("updated")
+    if not stamp:
+        return ""
+    y, m, d = stamp.split("-")
+    return f"updated {int(m)}/{int(d)}/{y} \u00b7 "
+
 # widget title overrides (data.json keeps the DB name)
 TITLE_OVERRIDES = {
 }
@@ -28,6 +39,7 @@ TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" v
     .pct  {{ fill: #10b981; font: 700 20px -apple-system, 'Segoe UI', sans-serif; }}
     .bar-bg {{ fill: #21262d; }}
     .bar-fg {{ fill: #10b981; }}
+    .link {{ text-decoration: underline; }}
     @media (prefers-color-scheme: light) {{
       .card {{ fill: #ffffff; stroke: #d0d7de; }}
       .title {{ fill: #1f2328; }}
@@ -41,7 +53,7 @@ TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" v
   <rect class="bar-bg" x="{pad}" y="52" width="{bar_w}" height="12" rx="6"/>
   <rect class="bar-fg" x="{pad}" y="52" width="{fill_w}" height="12" rx="6"/>
   <text class="stat" x="{pad}" y="92">{sub}</text>
-  <text class="stat" x="{w_pad}" y="112" text-anchor="end">open transit tracker</text>
+  <text class="stat" x="{w_pad}" y="112" text-anchor="end">{updated}<a href="{repo}" class="link">open transit tracker</a></text>
 </svg>
 """
 
@@ -56,7 +68,7 @@ def range_label(r):
     return f"{r['lo']}\u2013{r['hi']}"
 
 
-def make_large(agency, rides, ranges):
+def make_large(agency, rides, ranges, updated=""):
     """GitHub-contribution-style grid: one square per vehicle, whole fleet, no numbers."""
     import math
 
@@ -134,6 +146,7 @@ def make_large(agency, rides, ranges):
     .pct  {{ fill: #10b981; font: 700 15px -apple-system, 'Segoe UI', sans-serif; }}
     .off {{ fill: #21262d; }}
     .on  {{ fill: #10b981; }}
+    .link {{ text-decoration: underline; }}
     @media (prefers-color-scheme: light) {{
       .card {{ fill: #ffffff; stroke: #d0d7de; }}
       .title {{ fill: #1f2328; }}
@@ -149,7 +162,7 @@ def make_large(agency, rides, ranges):
     {rects("off")}
     {rects("on")}
   </g>
-  <text class="stat" x="{w - 20}" y="{h - 11}" text-anchor="end">open transit tracker</text>
+  <text class="stat" x="{w - 20}" y="{h - 11}" text-anchor="end">{updated}<a href="{REPO_URL}" class="link">open transit tracker</a></text>
 </svg>
 """
     out = WIDGETS / f"widget-large-{slug}.svg"
@@ -175,6 +188,7 @@ def main():
         ranges_by_agency.setdefault(rng["agency_slug"], []).append(rng)
 
     last_ride = max((r["date"] for r in data["rides"] if r["date"]), default=None)
+    updated = updated_prefix(data)
 
     for agency in data["agencies"]:
         slug = agency["slug"]
@@ -204,13 +218,15 @@ def main():
             name=escape(title),
             pct=pct,
             sub=escape(sub),
+            updated=escape(updated),
+            repo=REPO_URL,
             label=escape(f"{title}: {ridden}/{total} ({pct:.2f}%)"),
         )
         out = WIDGETS / f"widget-{slug}.svg"
         out.write_text(svg)
         print(f"wrote {out.name}  {ridden}/{total} = {pct:.2f}%")
 
-        make_large(agency, rides, ranges_by_agency.get(slug, []))
+        make_large(agency, rides, ranges_by_agency.get(slug, []), updated=updated)
 
 
 if __name__ == "__main__":

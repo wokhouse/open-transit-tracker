@@ -1,17 +1,56 @@
 #!/usr/bin/env python3
 """Export the tracker SQLite DB -> data.json (canonical, stable ordering).
 
-No timestamp in the output: identical DB content must produce a
-byte-identical data.json so the daily sync only commits real changes.
+No timestamp drift: identical DB content must produce a byte-identical
+data.json so the daily sync only commits real changes. The "updated"
+field carries the date the data last changed: it is kept from the
+existing data.json while the payload is unchanged, and re-stamped to
+today (UTC) only when the payload actually differs.
 """
 
 import json
 import os
 import sqlite3
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 DB = Path(os.environ.get("TRANSIT_DB", Path.home() / "transit" / "transit.db"))
 OUT = Path(__file__).resolve().parent.parent / "data.json"
+
+
+def _git_last_data_change():
+    """UTC date of the last commit that touched data.json, or None.
+
+    Fallback for files that predate the "updated" field, so the first
+    export after the migration stamps the real last-change date.
+    """
+    try:
+        r = subprocess.run(
+            ["git", "log", "-1", "--format=%cd", "--date=format:%Y-%m-%d",
+             "--", OUT.name],
+            cwd=OUT.parent, capture_output=True, text=True)
+        stamp = r.stdout.strip()
+        return stamp if len(stamp) == 10 else None
+    except OSError:
+        return None
+
+
+def resolve_updated(payload):
+    """Return the data.json "updated" stamp for this payload.
+
+    Keeps the existing stamp while the payload is unchanged; otherwise
+    stamps today (UTC). server.py imports this, so both writers agree.
+    """
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    try:
+        old = json.loads(OUT.read_text())
+    except (OSError, ValueError):
+        return _git_last_data_change() or today
+    old_updated = old.pop("updated", None)
+    if old == payload:
+        return old_updated or _git_last_data_change() or today
+    return today
 
 
 def main():
@@ -35,7 +74,7 @@ def main():
                 d["cars"] = json.loads(r["cars"])
             ranges.append(d)
 
-        data = {
+        payload = {
             "agencies": [
                 dict(r)
                 for r in conn.execute(
@@ -54,8 +93,9 @@ def main():
     finally:
         conn.close()
 
+    data = {"updated": resolve_updated(payload), **payload}
     OUT.write_text(json.dumps(data, indent=2, sort_keys=False) + "\n")
-    print(f"wrote {OUT} ({len(data['rides'])} rides, {len(data['agencies'])} agencies)")
+    print(f"wrote {OUT} ({len(data['rides'])} rides, {len(data['agencies'])} agencies, updated {data['updated']})")
 
 
 if __name__ == "__main__":

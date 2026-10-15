@@ -20,10 +20,14 @@ import json
 import os
 import re
 import sqlite3
+import sys
 from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "scripts"))
+from export import resolve_updated  # noqa: E402  (same stamp rules as the daily sync)
 
 ROOT = Path(__file__).resolve().parent
 DB = Path(os.environ.get("TRANSIT_DB", Path.home() / "transit" / "transit.db"))
@@ -52,7 +56,7 @@ def export_data():
             if has_cars and r["cars"] not in (None, ""):
                 d["cars"] = json.loads(r["cars"])
             ranges.append(d)
-        data = {
+        payload = {
             "agencies": [
                 dict(r) for r in conn.execute(
                     "SELECT slug, name, total_fleet FROM agencies ORDER BY slug")
@@ -66,6 +70,7 @@ def export_data():
         }
     finally:
         conn.close()
+    data = {"updated": resolve_updated(payload), **payload}
     (ROOT / "data.json").write_text(json.dumps(data, indent=2, sort_keys=False) + "\n")
     return data
 
