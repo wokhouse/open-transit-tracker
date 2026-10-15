@@ -43,12 +43,6 @@ INK_MID = "#6f6a5c"
 INK_FAINT = "#b3ad9c"
 RED = "#b3382b"
 PAPER_EDGE = "#e7e2d2"
-# Standalone widgets sit on hosts we do not control (a GitHub profile README
-# is white in light mode). A cutout shows the host background, and white on
-# cream is 1.13:1 - the tractor edge vanishes. So a widget paints its own
-# desk behind the paper; only the app sheet stays transparent, because that
-# page supplies the dark gradient. Same value as index.html --desk.
-BACKDROP = "#23262b"
 
 # ---- desktop sheet layout (all multiples of LINE) ----
 SHEET_W = 1080
@@ -168,7 +162,7 @@ def _defs(L):
   </defs>"""
 
 
-def _paper(L, h, backdrop=None):
+def _paper(L, h):
     """Paper bands plus the two tractor strips, as one continuous sheet.
 
     The strip holes are real cutouts: what is behind the paper shows
@@ -176,18 +170,12 @@ def _paper(L, h, backdrop=None):
     group. The mask cannot be per-strip - the bands rect must run full
     width under the strips, or the strip/paper seam leaks the background
     as a hairline.
-
-    `backdrop` paints a desk color behind the paper, so a standalone
-    widget gets the same dark holes on any host. The app sheet passes
-    None and lets the page background through.
     """
     w = L["width"]
     t = L["tractor"]
     cx = t / 2
     phase = (w - t) % t
-    desk = f'  <rect width="{w}" height="{h}" fill="{backdrop}"/>\n' if backdrop else ""
     return (
-        desk +
         '  <defs>\n'
         + "".join(
             f'    <pattern id="{pid}" width="{t}" height="48"'
@@ -478,7 +466,7 @@ def render_card(data, slug):
         f'height="{h}" viewBox="0 0 {L["width"]} {h}" role="img" '
         f'aria-label="{aria}">',
         _defs(L),
-        _paper(L, h, BACKDROP),
+        _paper(L, h),
     ]
     y = LINE
     label = f"{agency['name'].upper()}: "
@@ -589,7 +577,7 @@ def render_grid_card(data, slug):
         f'height="{h}" viewBox="0 0 {L["width"]} {h}" role="img" '
         f'aria-label="{aria}">',
         _defs(L),
-        _paper(L, h, BACKDROP),
+        _paper(L, h),
     ]
     y = LINE
     label = f"{agency['name'].upper()}: "
