@@ -43,7 +43,12 @@ INK_MID = "#6f6a5c"
 INK_FAINT = "#b3ad9c"
 RED = "#b3382b"
 PAPER_EDGE = "#e7e2d2"
-DESK = "#23262b"
+# Standalone widgets sit on hosts we do not control (a GitHub profile README
+# is white in light mode). A cutout shows the host background, and white on
+# cream is 1.13:1 - the tractor edge vanishes. So a widget paints its own
+# desk behind the paper; only the app sheet stays transparent, because that
+# page supplies the dark gradient. Same value as index.html --desk.
+BACKDROP = "#23262b"
 
 # ---- desktop sheet layout (all multiples of LINE) ----
 SHEET_W = 1080
@@ -160,24 +165,52 @@ def _defs(L):
       <rect width="1" height="{LINE}" fill="{PAPER}"/>
       <rect y="{LINE}" width="1" height="{LINE}" fill="{BAND}"/>
     </pattern>
-    <pattern id="holes" width="{L['tractor']}" height="48" patternUnits="userSpaceOnUse">
-      <rect width="{L['tractor']}" height="48" fill="{PAPER}"/>
-      <circle cx="{L['tractor'] / 2:.0f}" cy="24" r="{L['hole_r']}" fill="{DESK}"/>
-    </pattern>
-    <pattern id="holes-r" width="{L['tractor']}" height="48" patternUnits="userSpaceOnUse"
-             patternTransform="translate({(L['width'] - L['tractor']) % L['tractor']} 0)">
-      <rect width="{L['tractor']}" height="48" fill="{PAPER}"/>
-      <circle cx="{L['tractor'] / 2:.0f}" cy="24" r="{L['hole_r']}" fill="{DESK}"/>
-    </pattern>
   </defs>"""
 
 
-def _paper(L, h):
+def _paper(L, h, backdrop=None):
+    """Paper bands plus the two tractor strips, as one continuous sheet.
+
+    The strip holes are real cutouts: what is behind the paper shows
+    through them. One mask punches both strips out of the whole paper
+    group. The mask cannot be per-strip - the bands rect must run full
+    width under the strips, or the strip/paper seam leaks the background
+    as a hairline.
+
+    `backdrop` paints a desk color behind the paper, so a standalone
+    widget gets the same dark holes on any host. The app sheet passes
+    None and lets the page background through.
+    """
     w = L["width"]
     t = L["tractor"]
-    return (f'  <rect width="{w}" height="{h}" fill="url(#bands)"/>\n'
-            f'  <rect x="0" y="0" width="{t}" height="{h}" fill="url(#holes)"/>\n'
-            f'  <rect x="{w - t}" y="0" width="{t}" height="{h}" fill="url(#holes-r)"/>')
+    cx = t / 2
+    phase = (w - t) % t
+    desk = f'  <rect width="{w}" height="{h}" fill="{backdrop}"/>\n' if backdrop else ""
+    return (
+        desk +
+        '  <defs>\n'
+        + "".join(
+            f'    <pattern id="{pid}" width="{t}" height="48"'
+            f' patternUnits="userSpaceOnUse"{shift}>\n'
+            f'      <circle cx="{cx:.0f}" cy="24" r="{L["hole_r"]}" fill="#000"/>\n'
+            f'    </pattern>\n'
+            for pid, shift in (
+                ("hole-dots", ""),
+                ("hole-dots-r", f' patternTransform="translate({phase} 0)"'),
+            ))
+        + f'    <mask id="paper-holes" maskUnits="userSpaceOnUse" x="0" y="0"'
+          f' width="{w}" height="{h}">\n'
+          f'      <rect width="{w}" height="{h}" fill="#fff"/>\n'
+          f'      <rect width="{t}" height="{h}" fill="url(#hole-dots)"/>\n'
+          f'      <rect x="{w - t}" width="{t}" height="{h}"'
+          f' fill="url(#hole-dots-r)"/>\n'
+          f'    </mask>\n'
+          '  </defs>\n'
+          '  <g mask="url(#paper-holes)">\n'
+          f'    <rect width="{w}" height="{h}" fill="url(#bands)"/>\n'
+          f'    <rect width="{t}" height="{h}" fill="{PAPER}"/>\n'
+          f'    <rect x="{w - t}" width="{t}" height="{h}" fill="{PAPER}"/>\n'
+          '  </g>')
 
 
 def _header(L, y, updated):
@@ -445,7 +478,7 @@ def render_card(data, slug):
         f'height="{h}" viewBox="0 0 {L["width"]} {h}" role="img" '
         f'aria-label="{aria}">',
         _defs(L),
-        _paper(L, h),
+        _paper(L, h, BACKDROP),
     ]
     y = LINE
     label = f"{agency['name'].upper()}: "
@@ -556,7 +589,7 @@ def render_grid_card(data, slug):
         f'height="{h}" viewBox="0 0 {L["width"]} {h}" role="img" '
         f'aria-label="{aria}">',
         _defs(L),
-        _paper(L, h),
+        _paper(L, h, BACKDROP),
     ]
     y = LINE
     label = f"{agency['name'].upper()}: "
