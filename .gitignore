@@ -5,6 +5,8 @@ __pycache__/
 # Widgets are generated from data.json by .github/workflows/pages.yml at
 # deploy time. Do not track them. Run scripts/make_widgets.py to preview.
 widgets/*.svg
+sheet.svg
+sheet-mobile.svg
 
 # Local build output (the Pages workflow assembles this in CI).
 _site/

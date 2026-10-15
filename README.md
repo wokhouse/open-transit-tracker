@@ -6,11 +6,13 @@ A static tracker of fleet coverage. Ride each vehicle in a fleet. Then see the g
 
 ## Files
 
-- `index.html` — the full site. The page gets `data.json` and shows one fleet grid for each agency. A green cell shows a ride. Hover over a cell to see the ride date.
+- `index.html` — the full site. The page shows one dot-printer sheet: a printout of every fleet grid, one section for each agency. A dark cell shows a ride. Hover over a cell to see the ride date. The live app also shows an ADD VEHICLE form; the static GitHub Pages copy has no form.
+- `sheet.svg` — the sheet image the page shows. The server makes it at run time, at the viewer's window width. The build task also writes static copies (`sheet.svg`, `sheet-mobile.svg`) for GitHub Pages.
+- `scripts/dotprinter.py` — the shared renderer. It draws the sheet for the server and for the widgets. One style lives in one file.
 - `data.json` — the data for the site. This file is the only tracked data. A script exports it from the tracker database.
-- `.github/workflows/pages.yml` — the build task. The task makes the SVG widgets from `data.json`, then publishes the site to GitHub Pages.
+- `.github/workflows/pages.yml` — the build task. The task makes the SVG widgets and `sheet.svg` from `data.json`, then publishes the site to GitHub Pages.
 
-The widget files are not in the repository. The build task makes them. The widgets are static SVG. They use no JavaScript. They obey the dark color scheme and the light color scheme. You can put a widget in a GitHub profile README:
+The widget files are not in the repository. The build task makes them. The widgets are static SVG. They use no JavaScript. They use the dot-printer paper style (green-bar paper, tractor-feed margins). You can put a widget in a GitHub profile README:
 
 ```markdown
 ![SFMTA fleet coverage](https://wokhouse.github.io/open-transit-tracker/widgets/widget-sfmta.svg)

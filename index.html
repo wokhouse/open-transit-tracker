@@ -6,107 +6,110 @@
 <title>open transit tracker</title>
 <meta name="description" content="Open transit fleet coverage tracker.">
 <style>
+  /* The page is a desk. The report itself is one dot-printer sheet,
+     rendered by scripts/dotprinter.py: the live copy fetches it from
+     /api/sheet.svg, the static GitHub Pages copy fetches sheet.svg.
+     This file only draws the interactive chrome over the sheet:
+     the add-vehicle form and the ride tooltip. */
   :root {
-    --bg: #09090b; --card: #18181b; --border: #27272a;
-    --text: #f4f4f5; --muted: #a1a1aa; --faint: #52525b;
-    --green: #10b981; --green-hover: #34d399; --cell: #27272a; --cell-text: #71717a;
+    --desk: #23262b;
+    --paper: #f6f3e8;
+    --ink: #26251f;
+    --ink-faint: #b3ad9c;
+    --ink-mid: #6f6a5c;
+    --red: #b3382b;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; padding: 2rem 1rem 4rem;
-    background: var(--bg); color: var(--text);
-    font: 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0; padding: 2.5rem 1rem 4rem;
+    background: radial-gradient(1200px 700px at 50% -10%, #31353c, var(--desk) 70%);
+    color: var(--ink);
+    font: 13px/21px var(--mono);
   }
-  main { max-width: 72rem; width: 100%; margin: 0 auto; }
-  @media (max-width: 420px) {
-    body { padding: 1.25rem 0.6rem 3rem; }
-    .sub { margin-bottom: 1.5rem; }
-    .agency { margin-bottom: 2.25rem; }
+  main { max-width: 1080px; width: 100%; margin: 0 auto; }
+  #sheet { position: relative; }
+  #sheet svg { display: block; width: 100%; height: auto; }
+  #sheet .loading { color: var(--ink-faint); text-align: center; padding: 3rem 0; }
+  @media (max-width: 640px) {
+    body { padding: 1rem .4rem 3rem; }
   }
-  h1 { font-size: 1.4rem; margin: 0 0 0.25rem; }
-  .sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 2.5rem; }
-  .agency { margin-bottom: 3rem; }
-  .agency-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; }
-  .agency-head h2 { font-size: 1.15rem; margin: 0; }
-  .pct { color: var(--green); font-weight: 700; font-size: 1.05rem; }
-  .count { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
-  .track { height: 10px; border-radius: 5px; background: var(--cell); overflow: hidden; margin-bottom: 1.25rem; }
-  .fill { height: 100%; background: var(--green); border-radius: 5px; }
-  .range { margin-bottom: 1.5rem; }
-  .range-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
-  .range-head h3 { font-size: 0.85rem; margin: 0; color: var(--text); font-weight: 600; }
-  .range-head h3 small { color: var(--faint); font-weight: 400; margin-left: 0.4rem; }
-  .range-head span { color: var(--muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
-  .grid { display: flex; flex-wrap: wrap; gap: 3px; }
-  .prefix-note { color: var(--faint); font-size: 0.8rem; margin-top: 0.25rem; }
-  .cell {
-    width: 44px; height: 26px; border-radius: 4px;
-    background: var(--cell); color: var(--cell-text);
-    font: 11px/26px ui-monospace, "SF Mono", Menlo, monospace;
-    text-align: center; user-select: none;
+
+  /* record bar: overlaid on the blank rows the sheet reserves for it
+     (the <rect id="form-gap"> marker). Only on writable copies. */
+  .record {
+    position: absolute; display: none;
+    padding: 0; margin: 0;
   }
-  .cell.ridden { background: var(--green); color: #022c22; font-weight: 600; cursor: pointer; }
-  .cell.ridden:hover { background: var(--green-hover); }
-  /* ride tooltip: date always, delete button only on writable copies */
-  .tip { position: fixed; z-index: 10; background: var(--card);
-    border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem;
-    font-size: 0.85rem; box-shadow: 0 6px 24px rgba(0,0,0,.5); max-width: 16rem; }
-  .tip .tip-agency { color: var(--muted); }
-  .tip .tip-date { color: var(--muted); display: block; margin: 0.15rem 0 0.45rem; }
-  .tip button { background: #e05565; color: #fff; border: 0; border-radius: 6px;
-    padding: 0.35rem 0.7rem; cursor: pointer; font: inherit; }
-  .tip button:hover { background: #f06a6d; }
-  footer { color: var(--faint); font-size: 0.8rem; margin-top: 3rem; }
-  footer a { color: var(--muted); }
-  /* record bar: only injected when /api/config says this copy is writable */
-  .record { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
-    margin: 0 0 2rem; padding: 0.9rem 1rem; background: var(--card);
-    border: 1px solid var(--border); border-radius: 8px; }
+  .record .rec-label { color: var(--ink); font-weight: 700;
+    text-transform: uppercase; line-height: 21px; }
+  .record .rec-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
   .record select, .record input {
-    background: var(--bg); color: var(--text); border: 1px solid var(--border);
-    border-radius: 6px; padding: 0.45rem 0.6rem; font: inherit; }
+    background: var(--paper); color: var(--ink); border: 1px solid var(--ink-mid);
+    font: inherit; line-height: 19px; padding: 0 .6rem; }
+  .record select { height: 21px; box-sizing: border-box; }
   .record input { width: 9rem; }
-  .record button { background: var(--green); color: #022c22; font-weight: 600;
-    border: 0; border-radius: 6px; padding: 0.5rem 0.9rem; cursor: pointer; }
-  .record button:hover { background: var(--green-hover); }
-  .record .msg { color: var(--muted); font-size: 0.85rem; }
+  .record button { background: var(--ink); color: var(--paper); font-weight: 700;
+    border: 1px solid var(--ink); font: inherit; padding: 0 .9rem; line-height: 19px;
+    cursor: pointer; text-transform: uppercase; }
+  /* below this width one control per line: each control is exactly one
+     21px grid row (19px line-box + 2px border), so the stacked form
+     stays on the green line grid instead of wrapping at 8px gaps */
+  @media (max-width: 560px) {
+    .record .rec-row { flex-direction: column; flex-wrap: nowrap; gap: 0;
+      align-items: stretch; }
+    .record select, .record input, .record button { width: 100%;
+      box-sizing: border-box; }
+    /* one blank grid row between fields/buttons: 21px margins, not flex
+       gap, so the empty msg span never adds a phantom row */
+    .record select, .record button { margin-top: 21px; }
+  }
+  .record .msg:empty { display: none; }
+  .record button:hover { background: #000; }
+  .record .msg { color: var(--ink-mid); }
+
+  /* tooltip: a torn-off slip */
+  .tip { position: fixed; z-index: 10; background: var(--paper); color: var(--ink);
+    border: 1px dashed var(--ink-mid); padding: .6rem .8rem;
+    font-size: 13px; box-shadow: 0 6px 24px rgba(0,0,0,.4); max-width: 16rem; }
+  .tip .tip-agency { color: var(--ink-mid); }
+  .tip .tip-date { color: var(--ink-mid); display: block; margin: .15rem 0 .45rem; }
+  .tip button { background: var(--red); color: var(--paper); border: 0;
+    padding: .35rem .7rem; cursor: pointer; font: inherit; text-transform: uppercase; }
 </style>
 </head>
 <body>
 <main>
-  <h1>🚍 open transit tracker</h1>
-  <p class="sub" id="updated" hidden></p>
-  <div id="app"><p class="sub">loading…</p></div>
-  <footer>data auto-updates daily · <a href="https://github.com/wokhouse/open-transit-tracker">source</a></footer>
+  <div id="sheet"><p class="loading">loading…</p></div>
 </main>
 <script>
-const num = v => {
-  const m = String(v).match(/(\d+)/);
-  return m ? parseInt(m[1], 10) : null;
-};
+const MOBILE_MQ = window.matchMedia("(max-width: 700px)");
 let WRITABLE = false;   // true only on the local server copy (/api/config)
-let lastData = null;
 let tipEl = null;
+let formEl = null;
 
 function closeTip() { if (tipEl) { tipEl.remove(); tipEl = null; } }
 document.addEventListener("click", e => {
-  if (tipEl && !tipEl.contains(e.target) && !e.target.classList.contains("ridden")) closeTip();
+  if (tipEl && !tipEl.contains(e.target) && !e.target.matches("[data-vehicle]")) closeTip();
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeTip(); });
 
-function showTip(cell, agency, ride) {
+// tooltip over a ridden cell in the sheet (cells carry data-* attributes)
+function showTip(cell) {
   closeTip();
+  const vehicle = cell.dataset.vehicle;
+  const date = cell.dataset.date;
   tipEl = document.createElement("div");
   tipEl.className = "tip";
   tipEl.innerHTML =
-    `<strong>${ride.vehicle}</strong> <span class="tip-agency">${agency.name}</span>` +
-    `<span class="tip-date">ridden ${ride.date || "unknown date"}</span>`;
+    `<strong>${vehicle}</strong> <span class="tip-agency">${cell.dataset.agencyName}</span>` +
+    `<span class="tip-date">ridden ${date || "unknown date"}</span>`;
   if (WRITABLE) {
     const del = document.createElement("button");
     del.textContent = "delete ride";
     del.onclick = async () => {
-      const r = await fetch(`api/ride?agency=${encodeURIComponent(agency.slug)}` +
-        `&vehicle=${encodeURIComponent(ride.vehicle)}`, {method: "DELETE"});
+      const r = await fetch(`api/ride?agency=${encodeURIComponent(cell.dataset.agency)}` +
+        `&vehicle=${encodeURIComponent(vehicle)}`, {method: "DELETE"});
       const j = await r.json().catch(() => ({}));
       if (!r.ok || !j.ok) {
         const msg = document.createElement("span");
@@ -116,7 +119,7 @@ function showTip(cell, agency, ride) {
         return;
       }
       closeTip();
-      fetch("data.json", {cache: "no-store"}).then(x => x.json()).then(render);
+      loadSheet();
     };
     tipEl.appendChild(del);
   }
@@ -130,115 +133,78 @@ function showTip(cell, agency, ride) {
   tipEl.style.left = x + "px";
   tipEl.style.top = y + "px";
 }
-const rangeLabel = r => r.prefix != null ? r.prefix + "-series"
-  : r.cars ? r.cars[0] + "\u2013" + r.cars[r.cars.length - 1] + " (irregular)"
-  : r.lo === r.hi ? String(r.lo) : r.lo + "\u2013" + r.hi;
 
-function render(data) {
-  lastData = data;
-  if (data.updated) {
-    const sub = document.getElementById("updated");
-    sub.textContent = "last updated " + data.updated;
-    sub.hidden = false;
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content",
-      "Open transit fleet coverage tracker — last updated " + data.updated + ".");
+function wireCells() {
+  document.querySelectorAll("#sheet [data-vehicle]").forEach(el => {
+    el.addEventListener("click", e => { e.stopPropagation(); showTip(el); });
+  });
+}
+
+// place the HTML form inside the blank rows the sheet reserved for it
+// (the <rect id="form-gap"> marker). The sheet width comes from the
+// fetched SVG itself, so desktop and mobile sheets both place correctly.
+function placeForm() {
+  if (!formEl) return;
+  const gap = document.querySelector("#sheet #form-gap");
+  const svg = document.querySelector("#sheet svg");
+  if (!gap || !svg) return;
+  const sheetW = parseFloat(svg.getAttribute("width")) || 1080;
+  const scale = svg.getBoundingClientRect().width / sheetW;
+  formEl.style.transformOrigin = "0 0";
+  formEl.style.transform = `scale(${scale})`;
+  formEl.style.left = gap.getAttribute("x") * scale + "px";
+  formEl.style.top = gap.getAttribute("y") * scale + "px";
+  formEl.style.width = gap.getAttribute("width") + "px";
+  formEl.style.display = "block";
+}
+
+async function loadSheet(retry) {
+  // narrow viewports get a sheet rendered at their own width, not a
+  // scaled-down desktop sheet: the type stays readable. The server
+  // picks the mobile or desktop layout itself at its own breakpoint.
+  let url;
+  if (WRITABLE) {
+    const w = retry || Math.max(320, Math.min(1080, document.documentElement.clientWidth - 28));
+    url = `api/sheet.svg?width=${w}`;
+  } else {
+    url = MOBILE_MQ.matches ? "sheet-mobile.svg" : "sheet.svg";
   }
-  const ridesByAgency = {};
-  for (const ride of data.rides)
-    (ridesByAgency[ride.agency_slug] ??= []).push(ride);
-  const rangesByAgency = {};
-  for (const rng of data.ranges)
-    (rangesByAgency[rng.agency_slug] ??= []).push(rng);
-
-  const app = document.getElementById("app");
-  app.innerHTML = "";
-
-  for (const a of data.agencies) {
-    const rides = ridesByAgency[a.slug] || [];
-    const riddenMap = new Map();
-    for (const r of rides) {
-      const n = num(r.vehicle);
-      if (n !== null) riddenMap.set(n, r);
-    }
-    const pct = a.total_fleet ? rides.length / a.total_fleet * 100 : 0;
-    a._pct = pct;
+  const r = await fetch(url, WRITABLE ? {cache: "no-store"} : {});
+  if (!r.ok) {
+    document.getElementById("sheet").innerHTML =
+      `<p class="loading">failed to load the sheet (${r.status})</p>`;
+    return;
   }
-
-  // biggest coverage first
-  data.agencies.sort((x, y) => y._pct - x._pct);
-
-  for (const a of data.agencies) {
-    const rides = ridesByAgency[a.slug] || [];
-    const riddenMap = new Map();
-    for (const r of rides) {
-      const n = num(r.vehicle);
-      if (n !== null) riddenMap.set(n, r);
+  document.getElementById("sheet").innerHTML = await r.text();
+  if (WRITABLE && !retry) {
+    // scrollbar width can shift the box after load: correct once so the
+    // sheet renders at scale 1
+    const box = Math.round(document.getElementById("sheet").clientWidth);
+    const svg = document.querySelector("#sheet svg");
+    if (box && svg && Math.abs(box - +svg.getAttribute("width")) > 2) {
+      loadSheet(box);
+      return;
     }
-    const pct = a._pct;
-
-    const sec = document.createElement("section");
-    sec.className = "agency";
-    sec.innerHTML =
-      `<div class="agency-head"><h2>${a.name}</h2>` +
-      `<span class="pct">${pct.toFixed(2)}%</span>` +
-      `<span class="count">${rides.length} / ${a.total_fleet}</span></div>` +
-      `<div class="track"><div class="fill" style="width:${Math.min(pct, 100)}%"></div></div>`;
-
-    for (const rng of rangesByAgency[a.slug] || []) {
-      const cells = [];              // {label, num} — num used for ridden lookup
-      if (rng.cars) {
-        // explicit car list (irregular numbering, e.g. Caltrain KISS coaches)
-        for (const c of rng.cars) cells.push({ label: c, num: num(c) });
-      } else if (rng.lo !== null && rng.hi !== null) {
-        for (let n = rng.lo; n <= rng.hi; n++) cells.push({ label: n, num: n });
-      }
-      const riddenIn = cells.filter(c => c.num != null && riddenMap.has(c.num)).length;
-      const denom = rng.count ?? cells.length;
-
-      const rsec = document.createElement("div");
-      rsec.className = "range";
-      let head =
-        `<div class="range-head"><h3>${rng.type}<small>${rangeLabel(rng)}</small></h3>` +
-        `<span>${riddenIn}/${denom}</span></div>`;
-      if (!cells.length) {
-        // no drawable cells: show a summary row
-        rsec.innerHTML = head + `<div class="prefix-note">${riddenIn} of ${denom} ridden</div>`;
-        sec.appendChild(rsec);
-        continue;
-      }
-      rsec.innerHTML = head + `<div class="grid"></div>`;
-      const grid = rsec.querySelector(".grid");
-      for (const { label, num: n } of cells) {
-        const cell = document.createElement("span");
-        const ride = n != null ? riddenMap.get(n) : null;
-        cell.className = "cell" + (ride ? " ridden" : "");
-        cell.textContent = label;
-        if (ride) {
-          cell.title = `${ride.vehicle} — ridden ${ride.date || "unknown date"}`;
-          cell.onclick = e => { e.stopPropagation(); showTip(cell, a, ride); };
-        }
-        grid.appendChild(cell);
-      }
-      sec.appendChild(rsec);
-    }
-    app.appendChild(sec);
   }
+  if (formEl) document.getElementById("sheet").appendChild(formEl);
+  wireCells();
+  placeForm();
 }
 
 function mountRecordBar(cfg) {
   WRITABLE = true;
-  const bar = document.createElement("div");
-  bar.className = "record";
+  formEl = document.createElement("div");
+  formEl.className = "record";
   const opts = cfg.agencies.map(a =>
     `<option value="${a.slug}">${a.name} (${a.ridden}/${a.total_fleet})</option>`).join("");
-  bar.innerHTML =
+  formEl.innerHTML =
+    `<div class="rec-label">add vehicle</div>` +
+    `<div class="rec-row">` +
     `<input id="rec-vehicle" placeholder="vehicle #" autocomplete="off">` +
     `<select id="rec-agency">${opts}</select>` +
     `<button id="rec-go">record ride</button>` +
-    `<span class="msg" id="rec-msg"></span>`;
-  const app = document.getElementById("app");
-  app.parentNode.insertBefore(bar, app);
+    `<span class="msg" id="rec-msg"></span></div>`;
+  document.getElementById("sheet").appendChild(formEl);
   document.getElementById("rec-go").onclick = async () => {
     const agency_slug = document.getElementById("rec-agency").value;
     const vehicle = document.getElementById("rec-vehicle").value.trim();
@@ -250,23 +216,35 @@ function mountRecordBar(cfg) {
     const j = await r.json();
     if (!r.ok || !j.ok) { msg.textContent = j.error || "failed"; return; }
     msg.textContent = j.new
-      ? `added ${j.vehicle} on ${j.date} — ${j.count}/${j.total} (${j.pct}%)`
+      ? `added ${j.vehicle} — ${j.count}/${j.total} (${j.pct}%)`
       : `${j.vehicle} already ridden`;
     document.getElementById("rec-vehicle").value = "";
-    fetch("data.json", {cache: "no-store"}).then(x => x.json())
-      .then(render);
+    loadSheet();
   };
 }
 
-fetch("data.json").then(r => r.json()).then(render).catch(err => {
-  document.getElementById("app").innerHTML = `<p class="sub">failed to load data.json: ${err}</p>`;
-});
-// Writable copies (the local server) expose /api/config. GitHub Pages
-// 404s it, so the same page stays read-only there.
+// Writable copies (the local server) expose /api/config and render the
+// sheet live. GitHub Pages 404s /api/config, so that copy fetches the
+// pre-built sheet.svg and stays read-only.
 fetch("api/config", {cache: "no-store"}).then(r => r.ok ? r.json() : null)
-  .then(cfg => { if (cfg && cfg.writable) mountRecordBar(cfg); })
-  .catch(() => {});
+  .then(cfg => {
+    if (cfg && cfg.writable) { mountRecordBar(cfg); loadSheet(); }
+    else loadSheet();
+  })
+  .catch(() => loadSheet());
 
+window.addEventListener("resize", placeForm);
+MOBILE_MQ.addEventListener("change", loadSheet);
+// live mode: re-render the sheet when the viewport width changes enough
+// to want a different layout (static Pages mode is covered by the MQ)
+let reloadTimer = null, lastW = 0;
+window.addEventListener("resize", () => {
+  if (!WRITABLE) return;
+  const w = Math.max(320, Math.min(1080, document.documentElement.clientWidth - 28));
+  if (Math.abs(w - lastW) < 40) return;
+  clearTimeout(reloadTimer);
+  reloadTimer = setTimeout(() => { lastW = w; loadSheet(); }, 400);
+});
 </script>
 </body>
 </html>

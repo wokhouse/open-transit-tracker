@@ -12,6 +12,9 @@ scripts/sync.sh only commits real changes.
 Endpoints:
   GET  /                    site (index.html, data.json, widgets/*.svg)
   GET  /api/config          {"writable": true, "agencies": [...]}
+  GET  /api/sheet.svg       the dot-printer sheet, rendered live from
+                            data.json (the static Pages copy instead
+                            fetches the pre-built sheet.svg)
   POST /api/ride            {agency_slug, vehicle, date?, line?}
   DELETE /api/ride?agency=..&vehicle=..   remove one ride (typo fix)
 """
@@ -28,6 +31,7 @@ from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "scripts"))
 from export import resolve_updated  # noqa: E402  (same stamp rules as the daily sync)
+import dotprinter as dp  # noqa: E402  (the shared sheet renderer)
 
 ROOT = Path(__file__).resolve().parent
 DB = Path(os.environ.get("TRANSIT_DB", Path.home() / "transit" / "transit.db"))
@@ -90,6 +94,25 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         path = urlparse(self.path).path
+        if path == "/api/sheet.svg":
+            try:
+                data = json.loads((ROOT / "data.json").read_text())
+            except (FileNotFoundError, ValueError):
+                data = export_data()
+            qs = parse_qs(urlparse(self.path).query)
+            try:
+                width = max(320, min(dp.SHEET_W, int(qs.get("width", [dp.SHEET_W])[0])))
+            except ValueError:
+                width = dp.SHEET_W
+            svg = dp.render_sheet(data, form_gap=True, footer=True,
+                                  width=width).encode()
+            self.send_response(200)
+            self.send_header("content-type", "image/svg+xml")
+            self.send_header("content-length", str(len(svg)))
+            self.send_header("cache-control", "no-store")
+            self.end_headers()
+            self.wfile.write(svg)
+            return
         if path == "/api/config":
             conn = db()
             try:
