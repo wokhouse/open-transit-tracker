@@ -6,10 +6,6 @@ the grid fill. One dot-printer sheet shows every fleet.
 Repo: `/home/fungj/open-transit-tracker` (canonical copy, branch `main`).
 Live page: https://wokhouse.github.io/open-transit-tracker/
 
-Note: this file is the content intended for a repo-root `AGENTS.md`. A write
-to `AGENTS.md` was denied by a protected-file guard, so the content lives here
-until an operator moves it.
-
 Read `README.md` and the `docs/` files listed at the end before you change
 code.
 
