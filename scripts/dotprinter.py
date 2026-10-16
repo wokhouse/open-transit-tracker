@@ -173,26 +173,24 @@ def _paper(L, h):
     """
     w = L["width"]
     t = L["tractor"]
-    cx = t / 2
-    phase = (w - t) % t
+    r = L["hole_r"]
+    # Explicit circles, not a tiled pattern. A pattern needs
+    # patternTransform to line the right strip's holes up with the left
+    # strip, and renderers that ignore that attribute put the right
+    # holes at the paper edge instead of in the strip.
+    holes = []
+    cy = 24
+    while cy - r < h:
+        for cx in (t / 2, w - t / 2):
+            holes.append(f'      <circle cx="{cx:g}" cy="{cy}" r="{r}" fill="#000"/>')
+        cy += 48
     return (
         '  <defs>\n'
-        + "".join(
-            f'    <pattern id="{pid}" width="{t}" height="48"'
-            f' patternUnits="userSpaceOnUse"{shift}>\n'
-            f'      <circle cx="{cx:.0f}" cy="24" r="{L["hole_r"]}" fill="#000"/>\n'
-            f'    </pattern>\n'
-            for pid, shift in (
-                ("hole-dots", ""),
-                ("hole-dots-r", f' patternTransform="translate({phase} 0)"'),
-            ))
         + f'    <mask id="paper-holes" maskUnits="userSpaceOnUse" x="0" y="0"'
           f' width="{w}" height="{h}">\n'
           f'      <rect width="{w}" height="{h}" fill="#fff"/>\n'
-          f'      <rect width="{t}" height="{h}" fill="url(#hole-dots)"/>\n'
-          f'      <rect x="{w - t}" width="{t}" height="{h}"'
-          f' fill="url(#hole-dots-r)"/>\n'
-          f'    </mask>\n'
+          + "\n".join(holes) + "\n"
+          + f'    </mask>\n'
           '  </defs>\n'
           '  <g mask="url(#paper-holes)">\n'
           f'    <rect width="{w}" height="{h}" fill="url(#bands)"/>\n'
