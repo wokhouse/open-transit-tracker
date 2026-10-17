@@ -31,7 +31,8 @@ description from it. The subtitle element is `hidden` until the data loads.
 ## Agency slugs (2026-10-10 merge)
 
 Slugs: `sfmta` (MUNI Bus + Muni Metro merged into one SFMTA agency, 1093
-fleet), `bart`, `caltrain`, `ac-transit`.
+fleet), `bart`, `caltrain`, `ac-transit`, `golden-gate-transit` (added
+2026-10-16).
 
 The old slugs `sfmta-bus` and `muni-metro` are legacy: `server.py` maps them
 to `sfmta` on POST and DELETE. The DB migration ran in place (`UPDATE
@@ -45,8 +46,8 @@ SUM(fleet_ranges.effective_count) == agencies.total_fleet   # per agency
 ```
 
 `effective_count` is `len(cars)` when `cars` is set, else `count`. Check the
-invariant after any fleet edit. All four agencies reconciled on 2026-10-11:
-sfmta 1093, bart 1070, caltrain 161, ac-transit 687.
+invariant after any fleet edit. All five agencies reconciled on 2026-10-16:
+sfmta 1093, bart 1070, caltrain 161, ac-transit 687, golden-gate-transit 124.
 
 ## Rides outside the ranges
 
@@ -73,6 +74,18 @@ Caltrain KISS):
 Source: Wikipedia "San Francisco Municipal Railway fleet" (it cites SFMTA
 documents). Do NOT model the streetcars as a contiguous 1006-1055 block. That
 was wrong.
+
+## Golden Gate Transit (added 2026-10-16)
+
+`golden-gate-transit`, `total_fleet` = 124. Three ranges:
+
+- 924-955 (32) and 956-980 (25): MCI D4500CT 45ft coaches (2012/2015).
+- 1901-1967 (67): Gillig Low Floor HEV 40ft hybrids (2019).
+
+Do NOT model the 901-923 MCI D4500CT (2010) series: CPTDB lists it retired by
+2025. The MTC FY2023-2028 SRTP counted 147 buses before that retirement; the
+current Wikipedia infobox (124) matches the roster above. Sources: Wikipedia
+"Golden Gate Transit", CPTDB Wiki roster, goldengate.org fleet history page.
 
 ## All-agency fleet audit (2026-10-11)
 
