@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-15",
+  "updated": "2026-10-17",
   "agencies": [
     {
       "slug": "ac-transit",
@@ -15,6 +15,11 @@
       "slug": "caltrain",
       "name": "Caltrain",
       "total_fleet": 161
+    },
+    {
+      "slug": "golden-gate-transit",
+      "name": "Golden Gate Transit",
+      "total_fleet": 124
     },
     {
       "slug": "sfmta",
@@ -400,6 +405,33 @@
         "3455",
         "3456"
       ]
+    },
+    {
+      "id": 44,
+      "agency_slug": "golden-gate-transit",
+      "lo": 924,
+      "hi": 955,
+      "prefix": null,
+      "type": "MCI D4500CT 45ft",
+      "count": 32
+    },
+    {
+      "id": 45,
+      "agency_slug": "golden-gate-transit",
+      "lo": 956,
+      "hi": 980,
+      "prefix": null,
+      "type": "MCI D4500CT 45ft",
+      "count": 25
+    },
+    {
+      "id": 46,
+      "agency_slug": "golden-gate-transit",
+      "lo": 1901,
+      "hi": 1967,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 67
     },
     {
       "id": 1,
@@ -830,6 +862,13 @@
       "vehicle_num": 3376,
       "line": null,
       "date": "2026-08-14"
+    },
+    {
+      "agency_slug": "golden-gate-transit",
+      "vehicle": "1916",
+      "vehicle_num": 1916,
+      "line": null,
+      "date": "2026-10-17"
     },
     {
       "agency_slug": "sfmta",
