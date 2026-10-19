@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-17",
+  "updated": "2026-10-19",
   "agencies": [
     {
       "slug": "ac-transit",
@@ -20,6 +20,11 @@
       "slug": "golden-gate-transit",
       "name": "Golden Gate Transit",
       "total_fleet": 124
+    },
+    {
+      "slug": "marin-transit",
+      "name": "Marin Transit",
+      "total_fleet": 82
     },
     {
       "slug": "sfmta",
@@ -432,6 +437,195 @@
       "prefix": null,
       "type": "Gillig Hybrid 40ft",
       "count": 67
+    },
+    {
+      "id": 47,
+      "agency_slug": "marin-transit",
+      "lo": 301,
+      "hi": 301,
+      "prefix": null,
+      "type": "ElDorado XHF 29ft",
+      "count": 1
+    },
+    {
+      "id": 48,
+      "agency_slug": "marin-transit",
+      "lo": 1501,
+      "hi": 1504,
+      "prefix": null,
+      "type": "Gillig BRT HEV 29ft",
+      "count": 4
+    },
+    {
+      "id": 49,
+      "agency_slug": "marin-transit",
+      "lo": 1505,
+      "hi": 1511,
+      "prefix": null,
+      "type": "Gillig BRT HEV 40ft",
+      "count": 7
+    },
+    {
+      "id": 50,
+      "agency_slug": "marin-transit",
+      "lo": 1560,
+      "hi": 1561,
+      "prefix": null,
+      "type": "Ford ElDorado F-550 Aero Elite",
+      "count": 2
+    },
+    {
+      "id": 51,
+      "agency_slug": "marin-transit",
+      "lo": 1680,
+      "hi": 1680,
+      "prefix": null,
+      "type": "Ford ElDorado E-450 Aerotech",
+      "count": 1
+    },
+    {
+      "id": 52,
+      "agency_slug": "marin-transit",
+      "lo": 1701,
+      "hi": 1710,
+      "prefix": null,
+      "type": "Gillig BRT HEV 40ft",
+      "count": 10
+    },
+    {
+      "id": 53,
+      "agency_slug": "marin-transit",
+      "lo": 1760,
+      "hi": 1761,
+      "prefix": null,
+      "type": "ElDorado XHF 29ft",
+      "count": 2
+    },
+    {
+      "id": 54,
+      "agency_slug": "marin-transit",
+      "lo": 1801,
+      "hi": 1802,
+      "prefix": null,
+      "type": "BYD K9S 40ft",
+      "count": 2
+    },
+    {
+      "id": 55,
+      "agency_slug": "marin-transit",
+      "lo": 1860,
+      "hi": 1861,
+      "prefix": null,
+      "type": "ElDorado XHF 35ft",
+      "count": 2
+    },
+    {
+      "id": 56,
+      "agency_slug": "marin-transit",
+      "lo": 1880,
+      "hi": 1880,
+      "prefix": null,
+      "type": "Ford ElDorado E-450 Aerotech",
+      "count": 1
+    },
+    {
+      "id": 57,
+      "agency_slug": "marin-transit",
+      "lo": 1980,
+      "hi": 1980,
+      "prefix": null,
+      "type": "Ford ElDorado E-450 Aerotech",
+      "count": 1
+    },
+    {
+      "id": 58,
+      "agency_slug": "marin-transit",
+      "lo": 2001,
+      "hi": 2011,
+      "prefix": null,
+      "type": "Gillig BRT HEV 40ft",
+      "count": 11
+    },
+    {
+      "id": 59,
+      "agency_slug": "marin-transit",
+      "lo": 2080,
+      "hi": 2088,
+      "prefix": null,
+      "type": "Ford ElDorado E-450 Aerotech",
+      "count": 9
+    },
+    {
+      "id": 60,
+      "agency_slug": "marin-transit",
+      "lo": 2101,
+      "hi": 2104,
+      "prefix": null,
+      "type": "Gillig Low Floor Plus EV 40ft",
+      "count": 4
+    },
+    {
+      "id": 61,
+      "agency_slug": "marin-transit",
+      "lo": 2160,
+      "hi": 2163,
+      "prefix": null,
+      "type": "ElDorado XHF 29ft",
+      "count": 4
+    },
+    {
+      "id": 62,
+      "agency_slug": "marin-transit",
+      "lo": 2170,
+      "hi": 2171,
+      "prefix": null,
+      "type": "ElDorado XHF 35ft",
+      "count": 2
+    },
+    {
+      "id": 63,
+      "agency_slug": "marin-transit",
+      "lo": 2401,
+      "hi": 2404,
+      "prefix": null,
+      "type": "Gillig BRT HEV 35ft",
+      "count": 4
+    },
+    {
+      "id": 64,
+      "agency_slug": "marin-transit",
+      "lo": 2405,
+      "hi": 2407,
+      "prefix": null,
+      "type": "Gillig BRT HEV 40ft",
+      "count": 3
+    },
+    {
+      "id": 65,
+      "agency_slug": "marin-transit",
+      "lo": 2601,
+      "hi": 2604,
+      "prefix": null,
+      "type": "Gillig BRT 29ft",
+      "count": 4
+    },
+    {
+      "id": 66,
+      "agency_slug": "marin-transit",
+      "lo": 3062,
+      "hi": 3064,
+      "prefix": null,
+      "type": "ElDorado XHF 35ft",
+      "count": 3
+    },
+    {
+      "id": 67,
+      "agency_slug": "marin-transit",
+      "lo": 3065,
+      "hi": 3069,
+      "prefix": null,
+      "type": "ElDorado XHF 35ft",
+      "count": 5
     },
     {
       "id": 1,
@@ -865,10 +1059,24 @@
     },
     {
       "agency_slug": "golden-gate-transit",
+      "vehicle": "1908",
+      "vehicle_num": 1908,
+      "line": null,
+      "date": "2026-10-19"
+    },
+    {
+      "agency_slug": "golden-gate-transit",
       "vehicle": "1916",
       "vehicle_num": 1916,
       "line": null,
       "date": "2026-10-17"
+    },
+    {
+      "agency_slug": "marin-transit",
+      "vehicle": "1509",
+      "vehicle_num": 1509,
+      "line": null,
+      "date": "2026-10-19"
     },
     {
       "agency_slug": "sfmta",
@@ -1163,6 +1371,13 @@
       "vehicle_num": 5769,
       "line": null,
       "date": "2026-07-21"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "5770",
+      "vehicle_num": 5770,
+      "line": null,
+      "date": "2026-10-19"
     },
     {
       "agency_slug": "sfmta",
