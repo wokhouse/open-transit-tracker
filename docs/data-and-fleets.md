@@ -32,7 +32,7 @@ description from it. The subtitle element is `hidden` until the data loads.
 
 Slugs: `sfmta` (MUNI Bus + Muni Metro merged into one SFMTA agency, 1093
 fleet), `bart`, `caltrain`, `ac-transit`, `golden-gate-transit` (added
-2026-10-16).
+2026-10-16), `marin-transit` (added 2026-10-19).
 
 The old slugs `sfmta-bus` and `muni-metro` are legacy: `server.py` maps them
 to `sfmta` on POST and DELETE. The DB migration ran in place (`UPDATE
@@ -46,8 +46,9 @@ SUM(fleet_ranges.effective_count) == agencies.total_fleet   # per agency
 ```
 
 `effective_count` is `len(cars)` when `cars` is set, else `count`. Check the
-invariant after any fleet edit. All five agencies reconciled on 2026-10-16:
-sfmta 1093, bart 1070, caltrain 161, ac-transit 687, golden-gate-transit 124.
+invariant after any fleet edit. All six agencies reconciled on 2026-10-19:
+sfmta 1093, bart 1070, caltrain 161, ac-transit 687, golden-gate-transit 124,
+marin-transit 82.
 
 ## Rides outside the ranges
 
@@ -86,6 +87,37 @@ Do NOT model the 901-923 MCI D4500CT (2010) series: CPTDB lists it retired by
 2025. The MTC FY2023-2028 SRTP counted 147 buses before that retirement; the
 current Wikipedia infobox (124) matches the roster above. Sources: Wikipedia
 "Golden Gate Transit", CPTDB Wiki roster, goldengate.org fleet history page.
+
+## Marin Transit (added 2026-10-19)
+
+`marin-transit`, `total_fleet` = 82. Twenty-one ranges, all of them the
+active fixed-route revenue roster:
+
+- 301 (1), ElDorado XHF 29ft (West Marin Stagecoach).
+- Gillig BRT HEV: 1501-1504 29ft (4), 1505-1511 40ft (7), 1701-1710 40ft
+  (10), 2001-2011 40ft (11), 2401-2404 35ft (4), 2405-2407 40ft (3).
+- Gillig BRT 29ft diesel: 2601-2604 (4).
+- Gillig Low Floor Plus EV 40ft: 2101-2104 (4).
+- BYD K9S 40ft: 1801-1802 (2).
+- ElDorado XHF: 1760-1761 29ft (2), 2160-2163 29ft (4), 1860-1861 35ft (2),
+  2170-2171 35ft (2), 3062-3064 35ft (3), 3065-3069 35ft (5).
+- Ford ElDorado cutaways: 1560-1561 F-550 Aero Elite 270 (2), 1680, 1880,
+  1980 E-450 Aerotech (3), 2080-2088 E-450 Aerotech (9).
+
+Do NOT model the paratransit roster (501-514, 601-605, 701-724, 801-807,
+808-810, 1830-1833): Marin Access vans run by reservation, and no rider can
+board them as a fixed-route vehicle. The retired transit-bus rows (550-559
+D60LF, 3301-3307 DE35LF, the RTS-06 cars) stay out for the same reason as the
+GGT 901-923 series.
+
+Sources: CPTDB Wiki "Marin Transit" (Transit Bus Roster, Active) and the
+series pages for 1505-1511 and 2601-2604. TransSee vehicle locations confirm
+1509, 1505, 1501, 1701, 2010, 2080-2088, 2162, 2171, 2405, and 2603 in
+2026-10 service. Marin Transit board report 2026-03-02 ("42 Gillig low-floor
+buses, orders for nine more", "10 battery electric vehicles, almost 15% of the
+fixed route fleet") agrees with the roster. The Wikipedia infobox ("about 105
+vehicles for fixed route and demand response") mixes both rosters and is too
+loose to model.
 
 ## All-agency fleet audit (2026-10-11)
 
