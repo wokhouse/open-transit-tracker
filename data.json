@@ -1072,9 +1072,23 @@
       "date": "2026-10-17"
     },
     {
+      "agency_slug": "golden-gate-transit",
+      "vehicle": "1931",
+      "vehicle_num": 1931,
+      "line": null,
+      "date": "2026-10-19"
+    },
+    {
       "agency_slug": "marin-transit",
       "vehicle": "1509",
       "vehicle_num": 1509,
+      "line": null,
+      "date": "2026-10-19"
+    },
+    {
+      "agency_slug": "marin-transit",
+      "vehicle": "2007",
+      "vehicle_num": 2007,
       "line": null,
       "date": "2026-10-19"
     },
