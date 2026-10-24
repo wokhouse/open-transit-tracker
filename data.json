@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-22",
+  "updated": "2026-10-24",
   "agencies": [
     {
       "slug": "ac-transit",
@@ -982,6 +982,13 @@
     },
     {
       "agency_slug": "caltrain",
+      "vehicle": "337",
+      "vehicle_num": 337,
+      "line": null,
+      "date": "2026-10-23"
+    },
+    {
+      "agency_slug": "caltrain",
       "vehicle": "3051",
       "vehicle_num": 3051,
       "line": null,
@@ -1035,6 +1042,13 @@
       "vehicle_num": 3331,
       "line": null,
       "date": "2026-07-28"
+    },
+    {
+      "agency_slug": "caltrain",
+      "vehicle": "3332",
+      "vehicle_num": 3332,
+      "line": null,
+      "date": "2026-10-23"
     },
     {
       "agency_slug": "caltrain",
@@ -1217,6 +1231,13 @@
       "vehicle_num": 2146,
       "line": null,
       "date": "2026-08-03"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "2150",
+      "vehicle_num": 2150,
+      "line": null,
+      "date": "2026-10-23"
     },
     {
       "agency_slug": "sfmta",
@@ -1917,6 +1938,13 @@
       "vehicle_num": 7201,
       "line": null,
       "date": "2026-09-12"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "7206",
+      "vehicle_num": 7206,
+      "line": null,
+      "date": "2026-10-24"
     },
     {
       "agency_slug": "sfmta",
