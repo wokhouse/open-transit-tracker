@@ -494,6 +494,72 @@ def render_card(data, slug):
     return "\n".join(parts)
 
 
+def render_combined_card(data):
+    """Combined card: one printed progress row per agency.
+
+    Same paper, grid, and type as the small card. A title row, then for
+    every agency a header row (NAME: pct% (count/total)) and a printed
+    bar, biggest coverage first. Footer rows like the small card. This
+    tier is bars-only: no grids, no vehicle numbers.
+    """
+    agencies = sort_agencies(data)
+    L = _layout(CARD_W)
+    total_rides = len(data["rides"])
+    total_fleet = sum(a["total_fleet"] for a in data["agencies"])
+    total_pct = total_rides / total_fleet * 100 if total_fleet else 0.0
+    # title, blank, totals header+bar, blank, then 2 rows per agency,
+    # blank, footer rows
+    h = (4 + 2 * len(agencies) + 3) * LINE
+    aria = escape(f"all agencies: {total_rides}/{total_fleet} "
+                  f"({total_pct:.2f}%)")
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{L["width"]}" '
+        f'height="{h}" viewBox="0 0 {L["width"]} {h}" role="img" '
+        f'aria-label="{aria}">',
+        _defs(L),
+        _paper(L, h),
+    ]
+    y = LINE
+    parts.append(_text(L["width"] // 2, y + 15, "ALL AGENCIES",
+                       weight="bold", anchor="middle", spacing="1.6"))
+    y += 2 * LINE
+    label = "TOTAL: "
+    parts.append(_text(L["margin"], y + 15, label, weight="bold",
+                       spacing="1.0"))
+    parts.append(_text(L["margin"] + len(label) * (GLYPH_W + 1.0), y + 15,
+                       f"{total_pct:.2f}% ({total_rides}/{total_fleet})"))
+    y += LINE
+    bar, y = _printed_bar(L, y, total_pct)
+    parts.append(bar)
+    y += LINE
+    for a in agencies:
+        slug = a["slug"]
+        count = sum(1 for r in data["rides"] if r["agency_slug"] == slug)
+        total = a["total_fleet"]
+        pct = count / total * 100 if total else 0.0
+        label = f"{a['name'].upper()}: "
+        parts.append(_text(L["margin"], y + 15, label, weight="bold",
+                           spacing="1.0"))
+        parts.append(_text(L["margin"] + len(label) * (GLYPH_W + 1.0),
+                           y + 15, f"{pct:.2f}% ({count}/{total})"))
+        y += LINE
+        bar, y = _printed_bar(L, y, pct)
+        parts.append(bar)
+    y += LINE
+    updated = data.get("updated")
+    if updated:
+        yy, mm, dd = updated.split("-")
+        parts.append(_text(L["margin"], y + 15,
+                           f"updated {int(mm)}/{int(dd)}/{yy}",
+                           fill=INK_MID))
+    parts.append('<a href="' + SOURCE_URL + '">'
+                 + _text(L["width"] - L["margin"], y + 15,
+                         "open transit tracker", fill=INK_MID,
+                         anchor="end") + "</a>")
+    parts.append("</svg>")
+    return "\n".join(parts)
+
+
 GRID_CARD_W = 690                  # README contribution-grid card width
 
 

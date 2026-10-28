@@ -99,6 +99,13 @@ The site is one printed report. `scripts/dotprinter.py` draws it.
   restyle must not change a widget's content model: when the XL card gained
   the numbered sheet, the user rejected it. The large widget is
   squares-only.
+- Combined card (`widgets/widget-combined.svg`, `render_combined_card`,
+  420px wide): every agency on one card. Title row `ALL AGENCIES`, a
+  `TOTAL: pct% (count/total)` row with its printed bar (summed over all
+  agencies), then per agency the small-card header row and printed bar,
+  biggest coverage first. Bars-only: no grids, no vehicle numbers. Footer
+  rows like the small card. CI copies it with `cp -r widgets`, so no
+  workflow change is needed for a new widget file.
 
 ## Rendering pitfalls
 
