@@ -145,3 +145,36 @@ defects. Pixels and SVG source do not.
   anchored at SVG `y=0`, so any multiple of 21 is a band boundary. Confirm
   with a PIL column scan of the screenshot before you trust vision: vision
   claimed misalignment on a pixel-perfect form.
+
+## Downscale-safe data cells (fixed 2026-10-30)
+
+- Symptom: the XL widget "stops working" on phone-width viewports — the
+  grid reads as scattered noise, empty cells vanish. Not a 404 and not a
+  clip: GitHub mobile renders the profile README img at container width,
+  so the 690px card is CSS-scaled to ~308px (measured 307.98x243.7 at a
+  390px viewport; `img` carries `max-width: 100%`, no width/height attrs).
+- Root cause: the grid cells were `<text>` glyphs (`█▀▄` at 13px). A
+  browser downscale hint-rasterizes text: strokes thinner than ~1px
+  vanish, so faint frames and half-blocks dropped out at 0.45x. Rects are
+  areas and scale exactly. The bar in `_printed_bar` was already rects —
+  its fill survived (confirmed by pixel scan: INK run 14-50 vs track
+  51-256 at 308px).
+- Fix: draw the same encoding as `<rect>` areas in `render_grid_card`
+  (frame rects + solid ridden-half rects). Desktop appearance and cell
+  footprint stay the same; only the primitive changes.
+- Do not "fix" by hollow/outline cells: at 690px the edge-to-edge
+  outlines fuse into a mesh and read muddy (user review, 2026-10-30).
+- Verification (this is the method for cell-encoding claims): read the
+  expected per-vehicle booleans from `_fleet_cells(data)`, screenshot the
+  REAL profile page (`github.com/wokhouse`, headless Chromium,
+  route-intercept to swap in a candidate SVG) at 1612x991 and 390x844,
+  find the paper origin by the first full-width paper-colored row, then
+  classify each cell-half sample point (3x3 majority) as INK / INK_FAINT /
+  paper and compare against the expectation. The fixed build matches
+  547/547 pairs at 690px and 1093/1093 halves at 308px; the text-glyph
+  build mismatches 8 ridden halves at 308px.
+- Vision false defects seen during this review (settled by pixel scans):
+  a "missing-cell hole" top-right (all cell centers carry data), a
+  "broken jagged bottom-left" (it is the faithful odd last half-cell,
+  present in the old build too), and an "unreadable progress bar fill"
+  (the fill segment renders at 308px).

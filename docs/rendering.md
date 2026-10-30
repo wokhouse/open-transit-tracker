@@ -82,15 +82,20 @@ The site is one printed report. `scripts/dotprinter.py` draws it.
   row, footer row. The height is a multiple of 21px.
 - XL card (`widgets/widget-large-<slug>.svg`, `render_grid_card`, 690px wide):
   the GitHub-contributions model — the whole fleet, NO vehicle numbers, one
-  grid, no range headers. Approved encoding: two vehicles per glyph on the
-  21px grid via stacked `<text>`. Every cell prints a faint `█` frame in
-  `INK_FAINT` so that empty vehicles stay visible, then a solid `▀`, `▄`, or
-  `█` in `INK` over the ridden halves. The user judges an encoding by
-  contrast: solid black on light gray passes; textured or self-shading glyphs
-  fail. Rejected: Braille dots (too low contrast), and the legacy-computing
-  shade glyphs `🮐🮑🮒🮋` (low contrast; the shade-texture progress bar read as
-  broken). When a glyph experiment is rejected, revert it completely —
-  constants, font-stack additions, and regenerated artifacts.
+  grid, no range headers. Approved encoding: two vehicles per cell on the
+  21px grid via split `<rect>` areas. Every cell prints a faint
+  `INK_FAINT` block so that empty vehicles stay visible, then a solid INK
+  top-half, bottom-half, or whole block over the ridden halves. The cells
+  are `<rect>` areas, NOT text glyphs: a phone viewport scales this 690px
+  card to ~308px (0.45x), and hint-rasterized 13px `<text>` collapses to
+  noise at that size while rects scale exactly (defect fixed 2026-10-30;
+  verification in `rendering-qa.md`). Never encode grid data in `<text>`.
+  The user judges an encoding by
+  contrast: solid black on light gray passes; textured or self-shading
+  glyphs fail. Rejected: Braille dots (too low contrast), and the
+  legacy-computing shade glyphs 🞐🞑🞒🞋 (low contrast; the shade-texture progress
+  bar read as broken). When a glyph experiment is rejected, revert it
+  completely — constants, font-stack additions, and regenerated artifacts.
 - `_fleet_cells` builds the cells: the ranges in order. The
   `ranges == total_fleet` invariant leaves no filler room, so an out-of-range
   ridden vehicle is unplaceable in any grid. Fix `fleet_ranges`, not the
