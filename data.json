@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30",
+  "updated": "2026-11-01",
   "agencies": [
     {
       "slug": "ac-transit",
@@ -1945,6 +1945,13 @@
       "vehicle_num": 6680,
       "line": null,
       "date": "2026-07-20"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "6702",
+      "vehicle_num": 6702,
+      "line": null,
+      "date": "2026-11-01"
     },
     {
       "agency_slug": "sfmta",
