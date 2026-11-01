@@ -8,6 +8,8 @@ app serves at /api/sheet.svg. One component, both outputs.
 Output:
   widgets/widget-<slug>.svg         small summary card, one agency
   widgets/widget-large-<slug>.svg   full dot-printer sheet, one agency
+  widgets/widget-combined.svg       one progress bar per agency, all
+                                    agencies on one card
   sheet.svg (repo root)             the whole-site sheet the static
                                    GitHub Pages copy of index.html shows
 """
@@ -39,6 +41,15 @@ def make_large(agency, data):
     print(f"wrote {out.name}  {n}/{agency['total_fleet']} (grid card)")
 
 
+def make_combined(data):
+    """Combined card: every agency's progress bar on one card."""
+    svg = dp.render_combined_card(data)
+    out = WIDGETS / "widget-combined.svg"
+    out.write_text(svg)
+    total = sum(a["total_fleet"] for a in data["agencies"])
+    print(f"wrote {out.name}  {len(data['rides'])}/{total} (combined card)")
+
+
 def main():
     import argparse
 
@@ -54,6 +65,7 @@ def main():
         slug = agency["slug"]
         make_small(agency, data)
         make_large(agency, data)
+    make_combined(data)
 
     # the whole-site sheet: the read-only GitHub Pages copy of index.html
     # fetches this file (the local server renders it live at /api/sheet.svg).
