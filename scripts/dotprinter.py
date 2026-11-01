@@ -561,9 +561,9 @@ def render_grid_card(data, slug):
     count = len(rides)
     pct = count / total * 100 if total else 0.0
     cells = _fleet_cells(agency, ranges, rides)
-    # Half-block encoding: the glyph box is split in half. A top-half
+    # Half-block encoding: the cell box is split in half. A top-half
     # block = first vehicle ridden, a bottom-half block = the next, a
-    # full block = both. Two vehicles per glyph, solid print like the
+    # full block = both. Two vehicles per cell, solid print like the
     # bar chart — much higher contrast than Braille dots.
     pairs = -(-len(cells) // 2)
     cols = L["content"] // LINE
@@ -587,25 +587,37 @@ def render_grid_card(data, slug):
     bar, y = _printed_bar(L, y, pct)
     parts.append(bar)
     y += LINE  # blank row between the bar and the grid
+    # Cells are <rect> areas, not text glyphs. A browser that scales the
+    # card down (GitHub mobile renders this 690px card ~308px wide, a
+    # 0.45x downscale) hint-rasterizes text: the faint glyph frames and
+    # the half-blocks collapse to noise, and the grid stops reading.
+    # Rects scale exactly, so the same encoding — faint INK_FAINT blocks
+    # for empty vehicles, solid INK over the ridden halves, two vehicles
+    # per cell on the 21px grid — stays legible at either size.
+    # cw matches the old text-glyph footprint (a 13px font block) so the
+    # desktop card keeps its approved sparse look; the paper gutters
+    # between cells stay wide.
+    cw = FONT_SIZE                   # cell width; wide paper gutters
+    half = (cw + 6) / 2 - 0.5        # split the 19px box into two halves
     for i in range(pairs):
         r, c = divmod(i, cols)
-        x = L["margin"] + c * LINE + LINE / 2
-        ty = y + r * LINE + 15
-        # the pair's frame: a faint block prints so empty vehicles are
-        # visible too; solid half-blocks go over the ridden halves
-        frame = "\u2588" if 2 * i + 1 < len(cells) else "\u2580"
-        parts.append(_text(x, ty, frame, fill=INK_FAINT, anchor="middle"))
+        x = L["margin"] + c * LINE + (LINE - cw) // 2
+        cy = y + r * LINE + 1
+        # the pair's frame: faint areas print so empty vehicles are
+        # visible too; solid INK halves go over the ridden vehicles
+        parts.append(f'  <rect x="{x}" y="{cy}" width="{cw}" '
+                     f'height="{half}" fill="{INK_FAINT}"/>')
+        if 2 * i + 1 < len(cells):
+            parts.append(f'  <rect x="{x}" y="{cy + half + 1}" '
+                         f'width="{cw}" height="{half}" fill="{INK_FAINT}"/>')
         a = cells[2 * i]
         b = 2 * i + 1 < len(cells) and cells[2 * i + 1]
-        if a and b:
-            g = "\u2588"
-        elif a:
-            g = "\u2580"
-        elif b:
-            g = "\u2584"
-        else:
-            continue
-        parts.append(_text(x, ty, g, anchor="middle"))
+        if a:
+            parts.append(f'  <rect x="{x}" y="{cy}" width="{cw}" '
+                         f'height="{half}" fill="{INK}"/>')
+        if b:
+            parts.append(f'  <rect x="{x}" y="{cy + half + 1}" '
+                         f'width="{cw}" height="{half}" fill="{INK}"/>')
     y += grid_rows * LINE + LINE
     updated = data.get("updated")
     if updated:
