@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01",
+  "updated": "2026-11-03",
   "agencies": [
     {
       "slug": "ac-transit",
@@ -30,6 +30,11 @@
       "slug": "sfmta",
       "name": "SFMTA",
       "total_fleet": 1093
+    },
+    {
+      "slug": "vta",
+      "name": "VTA",
+      "total_fleet": 523
     }
   ],
   "ranges": [
@@ -809,6 +814,226 @@
         "916",
         "952"
       ]
+    },
+    {
+      "id": 68,
+      "agency_slug": "vta",
+      "lo": null,
+      "hi": null,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 65,
+      "cars": [
+        "0130",
+        "0131",
+        "0132",
+        "0133",
+        "0134",
+        "0135",
+        "0136",
+        "0137",
+        "0138",
+        "0139",
+        "0140",
+        "0141",
+        "0142",
+        "0143",
+        "0144",
+        "0145",
+        "0146",
+        "0147",
+        "0148",
+        "0149",
+        "0150",
+        "0151",
+        "0152",
+        "0153",
+        "0154",
+        "0155",
+        "0156",
+        "0157",
+        "0158",
+        "0159",
+        "0160",
+        "0161",
+        "0162",
+        "0163",
+        "0164",
+        "0165",
+        "0166",
+        "0167",
+        "0168",
+        "0169",
+        "0170",
+        "0171",
+        "0172",
+        "0173",
+        "0174",
+        "0175",
+        "0176",
+        "0177",
+        "0178",
+        "0179",
+        "0180",
+        "0181",
+        "0182",
+        "0183",
+        "0184",
+        "0185",
+        "0186",
+        "0187",
+        "0188",
+        "0189",
+        "0190",
+        "0191",
+        "0192",
+        "0193",
+        "0194"
+      ]
+    },
+    {
+      "id": 69,
+      "agency_slug": "vta",
+      "lo": null,
+      "hi": null,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 25,
+      "cars": [
+        "0195",
+        "0196",
+        "0197",
+        "0198",
+        "0199",
+        "0201",
+        "0202",
+        "0203",
+        "0204",
+        "0205",
+        "0206",
+        "0207",
+        "0208",
+        "0209",
+        "0210",
+        "0211",
+        "0212",
+        "0213",
+        "0214",
+        "0215",
+        "0216",
+        "0217",
+        "0218",
+        "0219",
+        "0220"
+      ]
+    },
+    {
+      "id": 70,
+      "agency_slug": "vta",
+      "lo": 900,
+      "hi": 999,
+      "prefix": null,
+      "type": "Light rail car",
+      "count": 100
+    },
+    {
+      "id": 71,
+      "agency_slug": "vta",
+      "lo": 3401,
+      "hi": 3496,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 96
+    },
+    {
+      "id": 72,
+      "agency_slug": "vta",
+      "lo": 4101,
+      "hi": 4138,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 38
+    },
+    {
+      "id": 73,
+      "agency_slug": "vta",
+      "lo": 4211,
+      "hi": 4220,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 10
+    },
+    {
+      "id": 74,
+      "agency_slug": "vta",
+      "lo": 4301,
+      "hi": 4329,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 29
+    },
+    {
+      "id": 75,
+      "agency_slug": "vta",
+      "lo": 4401,
+      "hi": 4415,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 15
+    },
+    {
+      "id": 76,
+      "agency_slug": "vta",
+      "lo": 6201,
+      "hi": 6210,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 10
+    },
+    {
+      "id": 77,
+      "agency_slug": "vta",
+      "lo": 6401,
+      "hi": 6415,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 15
+    },
+    {
+      "id": 78,
+      "agency_slug": "vta",
+      "lo": 6417,
+      "hi": 6434,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 18
+    },
+    {
+      "id": 79,
+      "agency_slug": "vta",
+      "lo": 7401,
+      "hi": 7456,
+      "prefix": null,
+      "type": "Gillig Hybrid 40ft",
+      "count": 56
+    },
+    {
+      "id": 80,
+      "agency_slug": "vta",
+      "lo": 8301,
+      "hi": 8344,
+      "prefix": null,
+      "type": "New Flyer Hybrid 40ft",
+      "count": 44
+    },
+    {
+      "id": 81,
+      "agency_slug": "vta",
+      "lo": 8346,
+      "hi": 8347,
+      "prefix": null,
+      "type": "New Flyer Hybrid 40ft",
+      "count": 2
     }
   ],
   "rides": [
@@ -1976,6 +2201,13 @@
     },
     {
       "agency_slug": "sfmta",
+      "vehicle": "7204",
+      "vehicle_num": 7204,
+      "line": null,
+      "date": "2026-11-02"
+    },
+    {
+      "agency_slug": "sfmta",
       "vehicle": "7206",
       "vehicle_num": 7206,
       "line": null,
@@ -2169,6 +2401,13 @@
       "vehicle_num": 8940,
       "line": null,
       "date": "2026-07-18"
+    },
+    {
+      "agency_slug": "vta",
+      "vehicle": "3496",
+      "vehicle_num": 3496,
+      "line": null,
+      "date": "2026-11-02"
     }
   ]
 }
