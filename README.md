@@ -22,7 +22,7 @@ The large card shows every vehicle in the fleet as one grid of squares. One squa
 
 ![SFMTA fleet grid](https://wokhouse.github.io/open-transit-tracker/widgets/widget-large-sfmta.svg)
 
-Small and large widgets exist for these agencies: `sfmta`, `bart`, `ac-transit`, `caltrain`, `golden-gate-transit`, and `marin-transit`. Use the same URL with a different slug.
+Small and large widgets exist for these agencies: `sfmta`, `bart`, `ac-transit`, `caltrain`, `golden-gate-transit`, `marin-transit`, and `vta`. Use the same URL with a different slug.
 
 You can put a widget in a GitHub profile README. Add this markdown:
 

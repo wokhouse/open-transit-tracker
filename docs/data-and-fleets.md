@@ -32,7 +32,7 @@ description from it. The subtitle element is `hidden` until the data loads.
 
 Slugs: `sfmta` (MUNI Bus + Muni Metro merged into one SFMTA agency, 1093
 fleet), `bart`, `caltrain`, `ac-transit`, `golden-gate-transit` (added
-2026-10-16), `marin-transit` (added 2026-10-19).
+2026-10-16), `marin-transit` (added 2026-10-19), `vta` (added 2026-11-02).
 
 The old slugs `sfmta-bus` and `muni-metro` are legacy: `server.py` maps them
 to `sfmta` on POST and DELETE. The DB migration ran in place (`UPDATE
@@ -46,9 +46,9 @@ SUM(fleet_ranges.effective_count) == agencies.total_fleet   # per agency
 ```
 
 `effective_count` is `len(cars)` when `cars` is set, else `count`. Check the
-invariant after any fleet edit. All six agencies reconciled on 2026-10-19:
-sfmta 1093, bart 1070, caltrain 161, ac-transit 687, golden-gate-transit 124,
-marin-transit 82.
+invariant after any fleet edit. All agencies reconciled: sfmta 1093, bart
+1070, caltrain 161, ac-transit 687, golden-gate-transit 124, marin-transit
+82 (2026-10-19), vta 523 (2026-11-02).
 
 ## Rides outside the ranges
 
@@ -118,6 +118,47 @@ buses, orders for nine more", "10 battery electric vehicles, almost 15% of the
 fixed route fleet") agrees with the roster. The Wikipedia infobox ("about 105
 vehicles for fixed route and demand response") mixes both rosters and is too
 loose to model.
+
+## VTA (added 2026-11-02)
+
+`vta`, `total_fleet` = 523 (423 buses + 100 light-rail cars). Fourteen
+ranges, the active fixed-route revenue roster:
+
+- Gillig Hybrid 40ft: `0130–0194` (65) and `0195–0220` (25) as `cars` lists —
+  the fleet numbers are zero-padded ("0130"), and `0200` never existed, so an
+  lo–hi range would print wrong labels and a phantom cell. 3401–3496 (96;
+  3493–3496 are a 2025 add-on to the 3401–3492 order), 4101–4138 (38),
+  4211–4220 (10; 4201–4210 sold to Santa Cruz Metro), 4301–4329 (29),
+  4401–4415 (15), 6201–6210 (10, suburban), 6401–6415 + 6417–6434 (33; 6416
+  fire-destroyed 2020), 7401–7456 (56).
+- New Flyer XDE60 Hybrid 40ft: 8301–8344 + 8346–8347 (46; 8345 retired).
+- Light rail car 900–999 (100, Kinki Sharyo/Alstom 1999–2004).
+
+Excluded, with reasons:
+
+- The 2001–2002 diesel Gilligs (1002–1052, 2011–2021, 2022–2071, 2101–2123,
+  2201–2256): the CPTDB 2026-10-11 capture shows 1002–1052 fully retired, and
+  TransSee showed zero of 44 spot-checked old-series units in revenue on
+  2026-11-02. CPTDB "Active" statuses for the 20xx/21xx/22xx pages lag
+  reality; the series is gone.
+- Proterra 7501–7505 and 9501–9505 (BE40): "Out of Service" in every 2026
+  CPTDB capture, none in revenue on TransSee.
+- Gillig BEB 5501–5535 (35 battery-electric, part of an order for 66; VTA
+  ZEB Blueprint 2025-04): delivered but not in revenue service — none on
+  TransSee 2026-11-02, and VTA says "we'll let you know when we put them into
+  service". Add the range when they enter service.
+- VTA Access paratransit roster: reservation-run, per the Marin precedent.
+- 7437 IS part of the roster: the CPTDB 7401–7456 table lacks the row, but the
+  unit was in revenue on TransSee 2026-11-02. Table extraction dropped it; the
+  range keeps it.
+
+Sources: CPTDB Wiki series pages via Wayback captures 2025-12 through
+2026-10-11 (the live site Cloudflare-blocks curl; capture dates per series),
+Wikipedia "Valley Transportation Authority" (LRV fleet "900–999, 100 in
+service"), TransSee `fleetfind?a=vta` live spot checks 2026-11-02 (0140,
+0160, 0194, 0195, 3401, 3404, 3493, 3494, 3496, 4101, 4211, 4215, 4220,
+6201, 7401, 7437, 8301, 0902, 0995, 0996 seen in revenue; 0200, 6416, 8345,
+all 44 old-diesel IDs, and 5501–5535 seen absent).
 
 ## All-agency fleet audit (2026-10-11)
 
