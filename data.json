@@ -1172,6 +1172,13 @@
     },
     {
       "agency_slug": "caltrain",
+      "vehicle": "313",
+      "vehicle_num": 313,
+      "line": null,
+      "date": "2026-11-03"
+    },
+    {
+      "agency_slug": "caltrain",
       "vehicle": "315",
       "vehicle_num": 315,
       "line": null,
@@ -1484,6 +1491,13 @@
       "vehicle_num": 2161,
       "line": null,
       "date": "2026-08-29"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "2168",
+      "vehicle_num": 2168,
+      "line": null,
+      "date": "2026-11-03"
     },
     {
       "agency_slug": "sfmta",
@@ -1939,6 +1953,13 @@
       "vehicle_num": 5848,
       "line": null,
       "date": "2026-08-25"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "5851",
+      "vehicle_num": 5851,
+      "line": null,
+      "date": "2026-11-03"
     },
     {
       "agency_slug": "sfmta",
