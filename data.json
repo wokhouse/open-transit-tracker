@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10",
+  "updated": "2026-11-11",
   "agencies": [
     {
       "slug": "ac-transit",
@@ -1116,6 +1116,13 @@
     },
     {
       "agency_slug": "bart",
+      "vehicle": "4193",
+      "vehicle_num": 4193,
+      "line": null,
+      "date": "2026-11-11"
+    },
+    {
+      "agency_slug": "bart",
       "vehicle": "4316",
       "vehicle_num": 4316,
       "line": null,
@@ -1424,6 +1431,13 @@
     },
     {
       "agency_slug": "sfmta",
+      "vehicle": "2078",
+      "vehicle_num": 2078,
+      "line": null,
+      "date": "2026-11-11"
+    },
+    {
+      "agency_slug": "sfmta",
       "vehicle": "2079",
       "vehicle_num": 2079,
       "line": null,
@@ -1554,6 +1568,13 @@
       "vehicle_num": 2207,
       "line": null,
       "date": "2026-10-15"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "3033",
+      "vehicle_num": 3033,
+      "line": null,
+      "date": "2026-11-10"
     },
     {
       "agency_slug": "sfmta",
@@ -2334,6 +2355,13 @@
     },
     {
       "agency_slug": "sfmta",
+      "vehicle": "7215",
+      "vehicle_num": 7215,
+      "line": null,
+      "date": "2026-11-10"
+    },
+    {
+      "agency_slug": "sfmta",
       "vehicle": "7229",
       "vehicle_num": 7229,
       "line": null,
@@ -2359,6 +2387,13 @@
       "vehicle_num": 7237,
       "line": null,
       "date": "2026-10-15"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "7239",
+      "vehicle_num": 7239,
+      "line": null,
+      "date": "2026-11-11"
     },
     {
       "agency_slug": "sfmta",
@@ -2439,6 +2474,13 @@
     },
     {
       "agency_slug": "sfmta",
+      "vehicle": "8714",
+      "vehicle_num": 8714,
+      "line": null,
+      "date": "2026-11-10"
+    },
+    {
+      "agency_slug": "sfmta",
       "vehicle": "8716",
       "vehicle_num": 8716,
       "line": null,
@@ -2471,6 +2513,13 @@
       "vehicle_num": 8819,
       "line": null,
       "date": "2026-09-09"
+    },
+    {
+      "agency_slug": "sfmta",
+      "vehicle": "8828",
+      "vehicle_num": 8828,
+      "line": null,
+      "date": "2026-11-11"
     },
     {
       "agency_slug": "sfmta",
