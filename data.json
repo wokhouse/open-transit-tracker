@@ -2320,6 +2320,13 @@
     },
     {
       "agency_slug": "sfmta",
+      "vehicle": "6724",
+      "vehicle_num": 6724,
+      "line": null,
+      "date": "2026-11-11"
+    },
+    {
+      "agency_slug": "sfmta",
       "vehicle": "7201",
       "vehicle_num": 7201,
       "line": null,
