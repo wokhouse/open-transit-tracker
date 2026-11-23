@@ -158,35 +158,55 @@ function placeForm() {
   formEl.style.display = "block";
 }
 
+// the exact pixel width the sheet will be laid out at. Every width
+// decision in this file must use this one formula, or the server's
+// sheet width and the box width disagree and loadSheet fires a second
+// full re-render ("correct once") that wipes the page.
+function sheetWidth() {
+  return Math.max(320, document.getElementById("sheet").clientWidth);
+}
+
 async function loadSheet(retry) {
   // narrow viewports get a sheet rendered at their own width, not a
   // scaled-down desktop sheet: the type stays readable. The server
   // picks the mobile or desktop layout itself at its own breakpoint.
   let url;
   if (WRITABLE) {
-    const w = retry || Math.max(320, Math.min(1080, document.documentElement.clientWidth - 28));
+    const w = retry || sheetWidth();
     url = `api/sheet.svg?width=${w}`;
   } else {
     url = MOBILE_MQ.matches ? "sheet-mobile.svg" : "sheet.svg";
   }
   const r = await fetch(url, WRITABLE ? {cache: "no-store"} : {});
+  const sheet = document.getElementById("sheet");
   if (!r.ok) {
-    document.getElementById("sheet").innerHTML =
-      `<p class="loading">failed to load the sheet (${r.status})</p>`;
+    // still surgical: the record bar must survive a failed reload too
+    sheet.querySelectorAll("svg, .loading").forEach(n => n.remove());
+    const p = document.createElement("p");
+    p.className = "loading";
+    p.textContent = `failed to load the sheet (${r.status})`;
+    sheet.insertBefore(p, formEl || null);
     return;
   }
-  document.getElementById("sheet").innerHTML = await r.text();
+  // swap only the <svg>. Wiping #sheet.innerHTML removed the record bar
+  // with it, so a re-render (resize reload, record submit) dropped the
+  // input's focus. The form node now never leaves the DOM: focus, value,
+  // and caret survive every re-render.
+  const tmp = document.createElement("template");
+  tmp.innerHTML = await r.text();
+  const newSvg = tmp.content.firstElementChild;
+  if (!newSvg) return;
+  sheet.querySelectorAll("svg, .loading").forEach(n => n.remove());
+  sheet.insertBefore(newSvg, formEl || null);
   if (WRITABLE && !retry) {
     // scrollbar width can shift the box after load: correct once so the
     // sheet renders at scale 1
-    const box = Math.round(document.getElementById("sheet").clientWidth);
-    const svg = document.querySelector("#sheet svg");
-    if (box && svg && Math.abs(box - +svg.getAttribute("width")) > 2) {
+    const box = Math.round(sheet.clientWidth);
+    if (box && Math.abs(box - +newSvg.getAttribute("width")) > 2) {
       loadSheet(box);
       return;
     }
   }
-  if (formEl) document.getElementById("sheet").appendChild(formEl);
   wireCells();
   placeForm();
 }
@@ -219,6 +239,9 @@ function mountRecordBar(cfg) {
       ? `added ${j.vehicle} — ${j.count}/${j.total} (${j.pct}%)`
       : `${j.vehicle} already ridden`;
     document.getElementById("rec-vehicle").value = "";
+    // keep the caret in the bar for the next vehicle: loadSheet()
+    // re-mounts the form, and its focus restore keys off this focus
+    document.getElementById("rec-vehicle").focus();
     loadSheet();
   };
 }
@@ -234,13 +257,15 @@ fetch("api/config", {cache: "no-store"}).then(r => r.ok ? r.json() : null)
   .catch(() => loadSheet());
 
 window.addEventListener("resize", placeForm);
-MOBILE_MQ.addEventListener("change", loadSheet);
+// the MQ event object must not reach loadSheet: its first argument is the
+// forced sheet width, and an event would become width=[object ...]
+MOBILE_MQ.addEventListener("change", () => loadSheet());
 // live mode: re-render the sheet when the viewport width changes enough
 // to want a different layout (static Pages mode is covered by the MQ)
 let reloadTimer = null, lastW = 0;
 window.addEventListener("resize", () => {
   if (!WRITABLE) return;
-  const w = Math.max(320, Math.min(1080, document.documentElement.clientWidth - 28));
+  const w = sheetWidth();
   if (Math.abs(w - lastW) < 40) return;
   clearTimeout(reloadTimer);
   reloadTimer = setTimeout(() => { lastW = w; loadSheet(); }, 400);
